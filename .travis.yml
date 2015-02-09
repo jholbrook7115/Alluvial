@@ -3,4 +3,7 @@ compiler:
   - gcc
   - clang
 # Change this to your needs
-script: ./configure && make
+script: 
+    - qmake -qt=qt5 -v
+    - qmake -qt=qt5
+    - make
