@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MainForm.ui.qml</file>
         <file>PlayBackBar.qml</file>
         <file>PlaylistPanel.qml</file>
         <file>main.cpp</file>
@@ -16,5 +15,23 @@
         <file>icons/pressed_shuffle.png</file>
         <file>icons/shuffle.png</file>
         <file>icons/repeat.gif</file>
+        <file>albumRow.qml</file>
+        <file>AlbumView.qml</file>
+        <file>Alluvial.pro</file>
+        <file>Alluvial.pro.user</file>
+        <file>Alluvial.pro.user.3.2-pre1</file>
+        <file>container-background.jpg</file>
+        <file>deployment.pri</file>
+        <file>ItemDetailView.qml</file>
+        <file>ItemDetailViewForm.ui.qml</file>
+        <file>It's Happening.gif</file>
+        <file>LICENSE</file>
+        <file>MainView.qml</file>
+        <file>qml.qrc</file>
+        <file>SearchBar.qml</file>
+        <file>SearchResults.qml</file>
+        <file>SearchResultsAlbumSubList.qml</file>
+        <file>SearchResultsSongSubList.qml</file>
+        <file>test.txt</file>
     </qresource>
 </RCC>

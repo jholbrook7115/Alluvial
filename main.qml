@@ -2,11 +2,12 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.0
 
 ApplicationWindow {
-    title: qsTr("Hello World")
-    width: 640
-    height: 480
+    title: qsTr("Alluvial")
+    width: 800
+    height: 600
     visible: true
 
     menuBar: MenuBar {
@@ -23,15 +24,42 @@ ApplicationWindow {
         }
     }
 
-    MainForm {
+    Item {
+        id: mainWindow
+
         anchors.rightMargin: 0
         anchors.bottomMargin: 0
         anchors.leftMargin: 0
         anchors.topMargin: 0
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+
+        states: [ State:
+
+        ]
+        Item {
+            id: mainView
+
+            MainView {
+                    anchors.left: parent.left
+                    anchors.right: playListPanel.left
+                    anchors.top: parent.top
+                    anchors.bottom: playBackBar1.top
+                    x: 0
+                    y: 0
+            }
+        }
+        Item {
+            id: itemDetailView
+
+            ItemDetailViewForm {
+                anchors.left: parent.left
+                anchors.right: playListPanel.left
+                anchors.top: parent.top
+                anchors.bottom: playBackBar1.top
+                x: 0
+                y: 0
+            }
+        }
 
         PlayBackBar {
             id: playBackBar1
