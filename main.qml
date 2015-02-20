@@ -33,9 +33,33 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        states: [ State:
+        states: [
+            State {
+                name: "mainView"
+                PropertyChanges {
+                    target: mainView
+                    z: 1
+                }
+                PropertyChanges {
+                    target: itemDetailView
+                    z: 0
+                }
+            },
+
+            State {
+                name: "itemDetailView"
+                PropertyChanges {
+                    target: mainView
+                    z: 0
+                }
+                PropertyChanges {
+                    target: itemDetailView
+                    z: 1
+                }
+            }
 
         ]
+
         Item {
             id: mainView
 
