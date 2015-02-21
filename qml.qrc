@@ -17,15 +17,10 @@
         <file>icons/repeat.gif</file>
         <file>albumRow.qml</file>
         <file>AlbumView.qml</file>
-        <file>Alluvial.pro</file>
-        <file>Alluvial.pro.user</file>
-        <file>Alluvial.pro.user.3.2-pre1</file>
         <file>container-background.jpg</file>
         <file>deployment.pri</file>
-        <file>ItemDetailView.qml</file>
-        <file>ItemDetailViewForm.ui.qml</file>
+        <file>ItemDetailViewForm.qml</file>
         <file>It's Happening.gif</file>
-        <file>LICENSE</file>
         <file>MainView.qml</file>
         <file>qml.qrc</file>
         <file>SearchBar.qml</file>

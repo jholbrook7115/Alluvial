@@ -51,8 +51,6 @@ ColumnLayout {
                 id: playbackOptions
                 x: 0
                 y: 0
-                width: layout.implicitWidth
-                height: layout.implicitHeight
                 Layout.fillWidth: true
                 Layout.minimumWidth: 50
                 Layout.maximumWidth: 80
@@ -60,7 +58,7 @@ ColumnLayout {
                 ToolButton {
                     id: shuffleButton
                     x: parent.width * 0.05
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.4
                     text: "SHF"
                     state: "released"
@@ -124,7 +122,7 @@ ColumnLayout {
                 ToolButton {
                     id: repeatButton
                     x: parent.width * 0.55
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.4
                     text: "RPT"
                     state: "released"
@@ -171,8 +169,6 @@ ColumnLayout {
                 id: mediaOptions
                 x: parent.width * 0.5 - ( this.width / 2 )
                 y: 0
-                width: layout.implicitWidth
-                height: layout.implicitHeight
                 Layout.fillWidth: true
                 Layout.minimumWidth: 160
                 Layout.maximumWidth: 160
@@ -180,7 +176,7 @@ ColumnLayout {
                 ToolButton {
                     id: leftSkipButton
                     x: parent.width * 0.05
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.12
                     text: "<<"
                     iconName: "skip_left"
@@ -190,7 +186,7 @@ ColumnLayout {
                 ToolButton {
                     id: rewindButton
                     x: parent.width * 0.21
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.12
                     text: "<"
                     iconName: "rewind"
@@ -200,7 +196,7 @@ ColumnLayout {
                 ToolButton {
                     id: playButton
                     x: parent.width * 0.375
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.25
                     state: "pause"
                     onClicked: {
@@ -242,7 +238,7 @@ ColumnLayout {
                 ToolButton {
                     id: fastForwardButton
                     x: parent.width * 0.67
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.12
                     text: ">"
                     iconName: "fast_forward"
@@ -252,7 +248,7 @@ ColumnLayout {
                 ToolButton {
                     id: rightSkipButton
                     x: parent.width * 0.83
-                    y: parent.Center
+                    y: (parent.height - this.height) / 2
                     width: parent.width * 0.12
                     text: ">>"
                     iconName: "skip_track"

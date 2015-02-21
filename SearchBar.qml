@@ -11,15 +11,13 @@ Rectangle {
 
     TextField{
         id: searchBarTextField
-        //width: searchTextRoot.width
-        //height: searchTextRoot.height
 
         anchors.fill:parent
         onEditingFinished: {
             //TODO: send the text in the field to somewhere which will actually do something with it
             console.log("Search text input");
             var inputText = getText(0,128);
-            mainViewRoot.state="searchResultsToFront"
+            mainWindow.state="searchResultsPane"
             searchBarTextField.selectAll();
             searchBarTextField.focus=false;
         }

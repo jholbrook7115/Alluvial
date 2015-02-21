@@ -33,73 +33,74 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
+        state: "itemDetailView"
+
         states: [
             State {
-                name: "mainView"
+                name: "searchResultsPane"
                 PropertyChanges {
-                    target: mainView
+                    target: searchResultsPane
+                    opacity: 1
                     z: 1
                 }
                 PropertyChanges {
-                    target: itemDetailView
-                    z: 0
+                    target: itemDetailViewForm
+                    opacity: 0
+                    z: -1
                 }
             },
 
             State {
                 name: "itemDetailView"
                 PropertyChanges {
-                    target: mainView
-                    z: 0
+                    target: searchResultsPane
+                    opacity: 0
+                    z: -1
                 }
                 PropertyChanges {
-                    target: itemDetailView
+                    target: itemDetailViewForm
+                    opacity: 1
                     z: 1
                 }
             }
 
         ]
 
-        Item {
-            id: mainView
 
-            MainView {
-                    anchors.left: parent.left
-                    anchors.right: playListPanel.left
-                    anchors.top: parent.top
-                    anchors.bottom: playBackBar1.top
-                    x: 0
-                    y: 0
-            }
+        SearchResults{
+            id:searchResultsPane
+            color: "#000000"
+
+            //id: mainView
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
+            anchors.top: searchBarTextField.bottom
+            anchors.bottom: playBackBar.top
         }
-        Item {
-            id: itemDetailView
 
-            ItemDetailViewForm {
-                anchors.left: parent.left
-                anchors.right: playListPanel.left
-                anchors.top: parent.top
-                anchors.bottom: playBackBar1.top
-                x: 0
-                y: 0
-            }
+        ItemDetailViewForm {
+            id: itemDetailViewForm
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
+            anchors.top: searchBarTextField.bottom
+            anchors.bottom: playBackBar.top
         }
 
         PlayBackBar {
-            id: playBackBar1
+            id: playBackBar
+            z: 2
         }
         PlaylistPanel{
             id: playListPanel
+            z: 2
         }
-    }
 
-    MessageDialog {
-        id: messageDialog
-        title: qsTr("May I have your attention, please?")
-
-        function show(caption) {
-            messageDialog.text = caption;
-            messageDialog.open();
+        SearchBar{
+            id:searchBarTextField
+            height: 35
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
         }
     }
 }

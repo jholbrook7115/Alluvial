@@ -24,20 +24,19 @@ Rectangle {
 
     SearchResultsSongSubList{
         id:songResultsRow
-        height: 250
         width:parent.width
         anchors.top:parent.top
+        height: parent.height * 0.5
         anchors.left:parent.left
-
+        z:1
     }
 
     SearchResultsAlbumSubList{
         id:albumResultsRow
-        height: 250
         width: parent.width
-        anchors.top:songResultsRow.bottom
+        height: parent.height * 0.5
+        anchors.bottom: parent.bottom
         anchors.left:parent.left
-
     }
 
     /* width: {
@@ -48,4 +47,3 @@ Rectangle {
     }
 
 }
-
