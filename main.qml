@@ -21,13 +21,29 @@ ApplicationWindow {
                 onTriggered: Qt.quit();
             }
         }
+
+        Menu {
+            title: qsTr("&Services")
+            MenuItem {
+                text: qsTr("&Connect to Spotify")
+                onTriggered: messageDialog.show(qsTr("Spotify action triggered"))
+            }
+        }
     }
 
     MainForm {
+        anchors.rightMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+
+
+//        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
+//        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
+//        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+
+
     }
 
     MessageDialog {
