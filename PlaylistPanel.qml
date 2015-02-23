@@ -30,9 +30,11 @@ ColumnLayout {
             x:0
             y:0
 
-            //onCurrentIndexChanged:
+            onCurrentIndexChanged: {
+                console.log ("Playlist changed: " + playlistOptions.get(currentIndex).name)
+            }
 
-            model: ListModel {
+            ListModel {
                 id: playlistOptions
 
                 ListElement {
@@ -51,6 +53,8 @@ ColumnLayout {
                     name: "Playlist 4"
                 }
             }
+
+            model: playlistOptions
 
         }
 
