@@ -21,7 +21,6 @@ Rectangle {
             searchBarTextField.selectAll();
             searchBarTextField.focus=false;
         }
-
     }
 /*Jefferson Holbrook
 A lot of the following code with opacity is a bit buggy and could be done better

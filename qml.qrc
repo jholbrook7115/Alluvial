@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>PlayBackBar.qml</file>
         <file>PlaylistPanel.qml</file>
-        <file>main.cpp</file>
         <file>icons/next_track.png</file>
         <file>icons/player_fwd.png</file>
         <file>icons/player_pause.png</file>
@@ -15,18 +14,14 @@
         <file>icons/pressed_shuffle.png</file>
         <file>icons/shuffle.png</file>
         <file>icons/repeat.gif</file>
-        <file>albumRow.qml</file>
-        <file>AlbumView.qml</file>
         <file>container-background.jpg</file>
         <file>deployment.pri</file>
         <file>ItemDetailViewForm.qml</file>
         <file>It's Happening.gif</file>
-        <file>MainView.qml</file>
-        <file>qml.qrc</file>
         <file>SearchBar.qml</file>
         <file>SearchResults.qml</file>
         <file>SearchResultsAlbumSubList.qml</file>
         <file>SearchResultsSongSubList.qml</file>
-        <file>test.txt</file>
+        <file>z_TODO_List.txt</file>
     </qresource>
 </RCC>
