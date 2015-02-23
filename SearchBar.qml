@@ -17,7 +17,7 @@ Rectangle {
             //TODO: send the text in the field to somewhere which will actually do something with it
             console.log("Search text input");
             var inputText = getText(0,128);
-            mainWindow.state="searchResultsPane"
+            mainWindow.state="showSearchResultsPane"
             searchBarTextField.selectAll();
             searchBarTextField.focus=false;
         }

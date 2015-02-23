@@ -121,7 +121,7 @@ Rectangle {
                         onDoubleClicked:
                         {
                             console.log("Opening: " + name)
-                            mainWindow.state = "itemDetailView"
+                            mainWindow.state = "showItemDetailView"
                         }
                     }
 

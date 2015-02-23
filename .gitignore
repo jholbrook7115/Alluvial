@@ -28,4 +28,4 @@
 *.app
 
 # Qt-specific files
-Alluvial.pro.user
+Alluvial.pro.user*

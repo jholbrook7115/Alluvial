@@ -85,8 +85,20 @@ ColumnLayout {
 
             Component {
                 id: track
-                Text {
-                    text: '• ' + name
+                Item {
+                    height: 20
+                    width: parent.width
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            mainWindow.state = "showItemDetailView"
+                            console.log("Song clicked from playlist pane: " + name)
+                        }
+                    }
+
+                    Text {
+                        text: '• ' + name
+                    }
                 }
             }
 
