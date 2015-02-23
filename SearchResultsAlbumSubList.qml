@@ -122,7 +122,7 @@ Rectangle {
                 onDoubleClicked:
                 {
                     console.log("Opening: " + albumTitle)
-                    mainWindow.state = "itemDetailView"
+                    mainWindow.state = "showItemDetailView"
                 }
                 z: 1
             }

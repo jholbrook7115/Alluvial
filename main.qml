@@ -35,9 +35,12 @@ ApplicationWindow {
 
         state: "itemDetailView"
 
+        //TODO: gotta talk about these state names.  They seem confusing to me since
+        //they are also the names of the ids used in this file
+
         states: [
             State {
-                name: "searchResultsPane"
+                name: "showSearchResultsPane"
                 PropertyChanges {
                     target: searchResultsPane
                     opacity: 1
@@ -47,20 +50,23 @@ ApplicationWindow {
                     target: itemDetailViewForm
                     opacity: 0
                     z: -1
+                    enabled: false
                 }
             },
 
             State {
-                name: "itemDetailView"
+                name: "showItemDetailView"
                 PropertyChanges {
                     target: searchResultsPane
                     opacity: 0
                     z: -1
+                    enabled: false
                 }
                 PropertyChanges {
                     target: itemDetailViewForm
                     opacity: 1
                     z: 1
+
                 }
             }
 
