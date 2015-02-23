@@ -1,0 +1,15 @@
+---------------------------Issues/Things to Fix---------------------------
+- Fix colors
+- restrict accepted input of textfeild
+- doublecheck scaling and scaling-origins
+- set min/max widths
+
+---------------------------Additions---------------------------
+- scrollbars in searchresults sublists
+- add a button icon to the 'back' button
+- volume control
+- song length display (0:00 should always be the lower bounds of this!)
+
+---------------------------New Views/Windows---------------------------
+
+- LARGE: create settings menu
