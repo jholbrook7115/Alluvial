@@ -2,11 +2,12 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.0
 
 ApplicationWindow {
-    title: qsTr("Hello World")
-    width: 640
-    height: 480
+    title: qsTr("Alluvial")
+    width: 800
+    height: 600
     visible: true
 
     menuBar: MenuBar {
@@ -23,20 +24,83 @@ ApplicationWindow {
         }
     }
 
-    MainForm {
+    Item {
+        id: mainWindow
+
+        anchors.rightMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
-    }
 
-    MessageDialog {
-        id: messageDialog
-        title: qsTr("May I have your attention, please?")
+        state: "itemDetailView"
 
-        function show(caption) {
-            messageDialog.text = caption;
-            messageDialog.open();
+        states: [
+            State {
+                name: "searchResultsPane"
+                PropertyChanges {
+                    target: searchResultsPane
+                    opacity: 1
+                    z: 1
+                }
+                PropertyChanges {
+                    target: itemDetailViewForm
+                    opacity: 0
+                    z: -1
+                }
+            },
+
+            State {
+                name: "itemDetailView"
+                PropertyChanges {
+                    target: searchResultsPane
+                    opacity: 0
+                    z: -1
+                }
+                PropertyChanges {
+                    target: itemDetailViewForm
+                    opacity: 1
+                    z: 1
+                }
+            }
+
+        ]
+
+
+        SearchResults{
+            id:searchResultsPane
+            color: "#000000"
+
+            //id: mainView
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
+            anchors.top: searchBarTextField.bottom
+            anchors.bottom: playBackBar.top
+        }
+
+        ItemDetailViewForm {
+            id: itemDetailViewForm
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
+            anchors.top: searchBarTextField.bottom
+            anchors.bottom: playBackBar.top
+        }
+
+        PlayBackBar {
+            id: playBackBar
+            z: 2
+        }
+        PlaylistPanel{
+            id: playListPanel
+            z: 2
+        }
+
+        SearchBar{
+            id:searchBarTextField
+            height: 35
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
         }
     }
 }
