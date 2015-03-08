@@ -4,34 +4,11 @@ import QtQuick.Layouts 1.1
 Rectangle {
     width: parent.width
 
-    Row {
-        id: albumSearchResultHeader
-        anchors.top: parent.top
-        anchors.bottom: albumsSearchResultGrid.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: albumsSearchTitle.height
-        z: 1
-
-        Rectangle {
-            anchors.fill: parent
-            height: parent.height
-            color: "#ffffff"
-        }
-
-        Text {
-            id: albumsSearchTitle
-            text: "Albums"
-            font.pixelSize: 30
-            font.bold: true
-        }
-    }
-
     Flickable {
         id: albumsSearchResultGrid
-        anchors.top: albumSearchResultHeader.bottom
-        height: parent.height - albumSearchResultHeader.height
-        contentWidth: parent.width
+        anchors.bottom: parent.bottom
+        height: parent.height
+        width: parent.width
         x: parent.width % albumGrid.cellWidth / 2
 
         GridView{
@@ -44,6 +21,11 @@ Rectangle {
             flickableDirection: Flickable.VerticalFlick
             model: searchResults
             delegate: albumSearchResult
+            boundsBehavior: Flickable.StopAtBounds
+        }
+
+        Scrollbar {
+            flickable: albumGrid;
         }
     }
 

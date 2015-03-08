@@ -4,40 +4,59 @@ import QtQuick.Layouts 1.1
 Rectangle {
 
     id: searchResultsRoot
+    state: "showSongSearchResults"
 
-    Rectangle{
-        width: 10
-        height: 10
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: 15
-        anchors.rightMargin: 15
-        color: "#56FF00"
+    SearchResultsHeader {
+        id: searchResultsButtons
         z: 2
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                mainWindow.state="showItemDetailView";
-                searchBarTextField.focus=true;
-            }
-        }
     }
 
     SearchResultsSongSubList{
         id:songResultsRow
-        width:parent.width
-        anchors.top:parent.top
-        height: parent.height * 0.5
+        anchors.top: searchResultsButtons.bottom
+        anchors.bottom: parent.bottom
         anchors.left:parent.left
-        z:1
     }
 
     SearchResultsAlbumSubList{
         id:albumResultsRow
-        width: parent.width
-        height: parent.height * 0.5
+        anchors.top: searchResultsButtons.bottom
         anchors.bottom: parent.bottom
         anchors.left:parent.left
     }
+
+    states: [ State {
+            name: "showSongSearchResults"
+            PropertyChanges {
+                target: songResultsRow
+                z: 1
+                enabled: true
+                opacity: 1
+            }
+            PropertyChanges {
+                target: albumResultsRow
+                z: 0
+                enabled: false
+                opacity: 0
+            }
+        },
+        State {
+            name: "showAlbumSearchResults"
+            PropertyChanges {
+                target: songResultsRow
+                z: 0
+                enabled: false
+                opacity: 0
+            }
+            PropertyChanges {
+                target: albumResultsRow
+                z: 1
+                enabled: true
+                opacity: 1
+            }
+        }
+
+
+    ]
 
 }

@@ -1,65 +1,177 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import Alluvial.Globals 1.0
 
 ColumnLayout {
     width: parent.width * 0.8
-    height: 80
+    height: 100
     x: 0
-    y: parent.height - 80
+    y: parent.height - 100
     Layout.fillHeight: true
     Layout.minimumHeight: 80
     Layout.maximumHeight: 80
 
+    QtObject {
+        id: activeSongMeta
+        property string hash: '#0'
+        property string songName: "Shake it off"
+        property string album: "1989"
+        property string albumArt: "rawr.jpg"
+        property string artist: "Taylor Swift"
+        property int length: 100
+        property double size: 1024
+
+        onHashChanged: {
+            playbackSlider.value = 0
+            timer.running = true
+        }
+    }
+
     Rectangle {
         id: playbackBar
-        x: 0
-        y: 0
-        width: parent.width
-        height: parent.height
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         color: "#56B3BF"
-        Layout.fillWidth: true
-        Layout.minimumWidth: 300
-        Layout.fillHeight: true
-        Layout.minimumHeight: 80
-        Layout.maximumHeight: 80
 
-        Row {
+        RowLayout {
             id: sliderRow
-            x: parent.width * 0.05
-            y: parent.height * 0.05
-            width: parent.width * 0.9
-            height: parent.height * 0.25
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width * 0.05
+            anchors.right: parent.right
+            anchors.rightMargin: parent.width * 0.05
+            anchors.top: parent.top
+            height: parent.height * 0.5
+
+            Timer {
+                id: timer
+                interval: 1000
+                repeat: true
+                triggeredOnStart: false
+                onTriggered: {
+                    if (playbackSlider.value >= playbackSlider.maximumValue)
+                    {
+                        timer.stop
+                        playButton.state == 'pause'
+                    }
+                    else
+                    {
+                        playbackSlider.value += 1
+                    }
+                }
+            }
 
             Slider {
                 id: playbackSlider
-                x: 0
-                y: 0
-                width: parent.width
-                height: parent.height
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                maximumValue: activeSongMeta.length
+                stepSize: 1
+                tickmarksEnabled: false
+
+                states: [
+                    State {
+                        name: 'newSong'
+                        PropertyChanges {
+                            target: activeSongMeta
+                            hash: Globals.hash
+                            songName: Globals.songName
+                            album: Globals.album
+                            albumArt: Globals.albumArt
+                            artist: Globals.artist
+                            length: Globals.length
+                            size: Globals.size
+                        }
+                    }
+                ]
+
+                onValueChanged: {
+                    if (Globals.hash !== activeSongMeta.hash)
+                    {
+                        console.log("Different song chosen" + Globals.hash)
+                        timer.running = false
+                        playbackSlider.state = 'newSong'
+                    }
+
+                    if (playbackSlider.value >= playbackSlider.maximumValue)
+                    {
+                        playButton.state = 'pause'
+                    }
+                }
+
+            }
+
+            Item {
+                id: statusBar
+                anchors.left: playbackSlider.left
+                anchors.right: playbackSlider.right
+                anchors.top: playbackSlider.bottom
+                anchors.bottom: parent.bottom
+
+                Text {
+                    id: songStart
+                    text: "0:00"
+                    anchors.left: parent.left
+                }
+
+                Text {
+                    id: songPosition
+                    text: {
+                        if (playbackSlider.value % 60 < 10)
+                        {
+                            Math.floor(playbackSlider.value / 60).toString() + ':0' + Math.floor(playbackSlider.value % 60).toString()
+                        }
+                        else
+                        {
+                            Math.floor(playbackSlider.value / 60).toString() + ':' + Math.floor(playbackSlider.value % 60).toString()
+                        }
+                    }
+
+                    anchors.centerIn: parent
+                }
+
+                Text {
+                    id: songEnd
+                    text: {
+                        if (playbackSlider.maximumValue % 60 < 10)
+                        {
+                            Math.floor(playbackSlider.maximumValue / 60).toString() + ':0' + Math.floor(playbackSlider.maximumValue % 60).toString()
+                        }
+                        else
+                        {
+                            Math.floor(playbackSlider.maximumValue / 60).toString() + ':' + Math.floor(playbackSlider.maximumValue % 60).toString()
+                        }
+                    }
+                    anchors.right: parent.right
+                }
             }
         }
 
         RowLayout {
             id: buttonsRow
-            x: parent.width * 0.05
-            y: parent.height * 0.35
-            width: parent.width * 0.9
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width * 0.05
+            anchors.right: parent.right
+            anchors.rightMargin: parent.width * 0.05
+            anchors.bottom: parent.bottom
             height: parent.height * 0.5
 
             RowLayout {
                 id: playbackOptions
-                x: 0
-                y: 0
-                Layout.fillWidth: true
-                Layout.minimumWidth: 50
-                Layout.maximumWidth: 80
+                anchors.left: parent.left
+                anchors.leftMargin: parent.width * 0.05
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: parent.width * 0.3
 
                 ToolButton {
                     id: shuffleButton
-                    x: parent.width * 0.05
+                    anchors.left: parent.left
+                    anchors.leftMargin: parent.width * 0.05
                     y: (parent.height - this.height) / 2
-                    width: parent.width * 0.4
                     text: "SHF"
                     state: "released"
 
@@ -86,27 +198,6 @@ ColumnLayout {
                         }
                     ]
 
-/*                    transitions: [
-                        Transition {
-                            from: "pressed"; to: "released"
-                            PropertyAnimation {
-                                target: shuffleButton
-                                properties: "iconSource"
-                                duration: 500
-                            }
-                        },
-                        Transition {
-                            from: "released"; to: "pressed"
-                            PropertyAnimation {
-                                target: shuffleButton
-                                properties: "iconSource"
-                                duration: 500
-                            }
-                        }
-
-                    ]
-*/
-
                     function changeButtonState() {
                         if (state == "pressed")
                         {
@@ -121,7 +212,8 @@ ColumnLayout {
 
                 ToolButton {
                     id: repeatButton
-                    x: parent.width * 0.55
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.width * 0.05
                     y: (parent.height - this.height) / 2
                     width: parent.width * 0.4
                     text: "RPT"
@@ -167,8 +259,7 @@ ColumnLayout {
 
             RowLayout {
                 id: mediaOptions
-                x: parent.width * 0.5 - ( this.width / 2 )
-                y: 0
+                anchors.centerIn: parent
                 Layout.fillWidth: true
                 Layout.minimumWidth: 160
                 Layout.maximumWidth: 160
@@ -198,11 +289,17 @@ ColumnLayout {
                     x: parent.width * 0.375
                     y: (parent.height - this.height) / 2
                     width: parent.width * 0.25
-                    state: "pause"
+                    state: "play"
                     onClicked: {
-                        changePausedState()
+                        if (playbackSlider.value >= playbackSlider.maximumValue)
+                        {
+                            playButton.state = 'pause'
+                        }
+                        else
+                        {
+                            changePausedState()
+                        }
                     }
-                    text: state
 
                     function changePausedState() {
                         if (state == "pause")
@@ -217,19 +314,27 @@ ColumnLayout {
 
                     states: [
                         State {
-                            name: "play"
+                            name: "pause"
                             PropertyChanges {
                                 target: playButton
                                 iconName: "play"
                                 iconSource: "icons/player_play.png"
                             }
+                            PropertyChanges {
+                                target: timer
+                                running: false
+                            }
                         },
                         State {
-                            name: "pause"
+                            name: "play"
                             PropertyChanges {
                                 target: playButton
                                 iconName: "pause"
                                 iconSource: "icons/player_pause.png"
+                            }
+                            PropertyChanges {
+                                target: timer
+                                running: true
                             }
                         }
                     ]
@@ -254,6 +359,24 @@ ColumnLayout {
                     iconName: "skip_track"
                     iconSource: "icons/next_track.png"
                 }
+            }
+
+            RowLayout {
+                id: volumeOptions
+                anchors.right: parent.right
+                anchors.rightMargin: parent.width * 0.05
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+
+                Slider {
+                    id: volumeSlider
+                    anchors.right: parent.right
+                    width: 10
+                    minimumValue: 0
+                    maximumValue: 100
+                    stepSize: 1
+                }
+
             }
         }
     }
