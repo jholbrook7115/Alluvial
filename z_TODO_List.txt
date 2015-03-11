@@ -5,8 +5,6 @@
 - set min/max widths
 
 ---------------------------Additions---------------------------
-- scrollbars in searchresults sublists
-- add a button icon to the 'back' button
 - volume control
 - song length display (0:00 should always be the lower bounds of this!)
 

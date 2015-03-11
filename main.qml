@@ -88,7 +88,6 @@ ApplicationWindow {
                     target: itemDetailViewForm
                     opacity: 1
                     z: 1
-
                 }
             }
 
@@ -99,7 +98,6 @@ ApplicationWindow {
             id:searchResultsPane
             color: "#000000"
 
-            //id: mainView
             anchors.left: parent.left
             anchors.right: playListPanel.left
             anchors.top: searchBarTextField.bottom

@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QUrl>
 #include "settings_storage.h"
-
+#include <QtQml>
 
 
 
@@ -28,7 +28,8 @@ QVariant Settings::value(const QString &key, const QVariant &defaultValue) const
 int main(int argc, char *argv[])
 {
     QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial/main.qml");
-    QApplication app(argc, argv);
+	qmlRegisterSingletonType(QUrl("qrc:/GlobalVars.qml"), "Alluvial.Globals", 1, 0, "Globals");    
+	QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     app.setOrganizationName("AlphaBuilders");

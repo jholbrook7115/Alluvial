@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
+import Alluvial.Globals 1.0
 
 Rectangle {
     width: searchBarTextField.width
@@ -18,8 +19,7 @@ Rectangle {
 
     RowLayout{
         id:songHeaderText
-        anchors.top:songSearchTitle.bottom
-        anchors.topMargin: 5
+        height: nameHeaderBox.height
         width: parent.width
 
         Rectangle {
@@ -91,8 +91,8 @@ Rectangle {
 
     }
     Rectangle {
-        anchors.top: songHeaderText.bottom
-        height: parent.height - songHeaderText.height - songSearchTitle.height
+        anchors.bottom: parent.bottom
+        height: parent.height - songHeaderText.height - searchResultsButtons.height
         width: parent.width
 
         ColumnLayout {
@@ -102,11 +102,19 @@ Rectangle {
 
             ListModel {
                 id: songListModel
-                ListElement { name: "song0"; artist: "artist"; album: "album"; length: "3:43"}
-                ListElement { name: "song1"; artist: "artist"; album: "album"; length: "3:16"}
-                ListElement { name: "song2"; artist: "artist"; album: "album"; length: "4:04"}
-                ListElement { name: "song3"; artist: "artist"; album: "album"; length: "5:00"}
-                ListElement { name: "song4"; artist: "artist"; album: "album"; length: "9:11"}
+                ListElement { name: "song0"; artist: "artist"; album: "album"; length: 215; hash: '#1'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song1"; artist: "artist"; album: "album"; length: 346; hash: '#2'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song2"; artist: "artist"; album: "album"; length: 75; hash: '#3'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song3"; artist: "artist"; album: "album"; length: 345; hash: '#4'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 423; hash: '#5'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 124; hash: '#6'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 1456; hash: '#7'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 563; hash: '#8'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 543; hash: '#9'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 463; hash: '#10'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 82; hash: '#11'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 129; hash: '#12'; albumArt: 'rawr.jpg'; size: 1024}
+                ListElement { name: "song4"; artist: "artist"; album: "album"; length: 180; hash: '#13'; albumArt: 'rawr.jpg'; size: 1024}
             }
 
             Component {
@@ -120,9 +128,16 @@ Rectangle {
                         height: 20
                         onDoubleClicked:
                         {
-                            console.log("Opening: " + name)
+                            console.log("Opening: " + name + "\nPrior song length: " + Globals.length)
                             mainWindow.state = "showItemDetailView"
-
+                            Globals.hash = hash
+                            Globals.songName = name
+                            Globals.album = album
+                            Globals.albumArt = albumArt
+                            Globals.artist = artist
+                            Globals.length = length
+                            Globals.size = size
+                            console.log("Current song length: " + Globals.length)
                         }
                     }
 
@@ -142,7 +157,16 @@ Rectangle {
                         }
                         Text {
                             x: lengthHeaderBox.x
-                            text: length
+                            text: {
+                                if (length % 60 < 10)
+                                {
+                                    Math.floor(length / 60).toString() + ':0' + Math.floor(length % 60).toString()
+                                }
+                                else
+                                {
+                                    Math.floor(length / 60).toString() + ':' + Math.floor(length % 60).toString()
+                                }
+                            }
                         }
 
                     }
@@ -155,6 +179,11 @@ Rectangle {
                 anchors.fill: parent
                 model: songListModel
                 delegate:  songDelegate
+                boundsBehavior: Flickable.StopAtBounds
+            }
+
+            Scrollbar {
+                flickable: searchResultsBySong;
             }
 
         }

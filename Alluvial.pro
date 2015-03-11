@@ -15,3 +15,5 @@ include(deployment.pri)
 
 HEADERS += \
     settings_storage.h
+DISTFILES += \
+    qmldir.txt
