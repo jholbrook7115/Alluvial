@@ -4,11 +4,7 @@ import Alluvial.Globals 1.0
 
 Rectangle {
     width: searchBarTextField.width
-    anchors.top: searchBarTextField.bottom
-    anchors.left:parent.left
     //color: "#56B3BF"
-
-
 
     RowLayout{
         id:songHeaderText
@@ -123,6 +119,9 @@ Rectangle {
                         {
                             console.log("Opening: " + name + "\nPrior song length: " + Globals.length)
                             mainWindow.state = "showItemDetailView"
+<<<<<<< HEAD
+
+=======
                             Globals.hash = hash
                             Globals.songName = name
                             Globals.album = album
@@ -131,6 +130,7 @@ Rectangle {
                             Globals.length = length
                             Globals.size = size
                             console.log("Current song length: " + Globals.length)
+>>>>>>> e94d4ad2d4ee87841eb4803200686f449fc32899
                         }
                     }
 

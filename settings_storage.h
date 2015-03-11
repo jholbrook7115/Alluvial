@@ -23,7 +23,7 @@ private:
     QObject client_settings;
 */
     public:
-        explicit Settings_storing(QObject*parent=0): QSettings(QSettings::IniFormat, QSettings::UserScope,
+        explicit Settings_storing(QObject*parent=0): QSettings(QSettings::NativeFormat, QSettings::UserScope,
                                                        QCoreApplication::instance()->organizationName(),
                                                        QCoreApplication::instance()->applicationName(),
                                                        parent){}

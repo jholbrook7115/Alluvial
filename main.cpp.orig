@@ -2,11 +2,11 @@
 #include <QGuiApplication>
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
+<<<<<<< HEAD
 #include <QQuickView>
 #include <QDebug>
 #include <QUrl>
 #include "settings_storage.h"
-#include <QtQml>
 
 
 
@@ -29,9 +29,15 @@ QVariant Settings::value(const QString &key, const QVariant &defaultValue) const
 int main(int argc, char *argv[])
 {
     QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial/main.qml");
+=======
+#include <QtQml>
+
+int main(int argc, char *argv[])
+{
     qmlRegisterSingletonType(QUrl("qrc:/GlobalVars.qml"), "Alluvial.Globals", 1, 0, "Globals");
 
-	QApplication app(argc, argv);
+>>>>>>> e94d4ad2d4ee87841eb4803200686f449fc32899
+    QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     app.setOrganizationName("AlphaBuilders");
