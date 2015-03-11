@@ -1,0 +1,5 @@
+#ifndef SETTINGS_STORAGE
+#define SETTINGS_STORAGE
+
+#endif // SETTINGS_STORAGE
+
