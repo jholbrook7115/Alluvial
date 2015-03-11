@@ -27,7 +27,6 @@ Item {
                 fillMode: Image.PreserveAspectFit
                 height: parent.height - artistText.height - albumText.height
                 width: parent.width
-                opacity: 0.6
             }
 
             Text {

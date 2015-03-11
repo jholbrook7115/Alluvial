@@ -122,6 +122,7 @@ Rectangle {
                         {
                             console.log("Opening: " + name)
                             mainWindow.state = "showItemDetailView"
+
                         }
                     }
 

@@ -5,10 +5,13 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 
 ApplicationWindow {
+    id:superRootWindow
     title: qsTr("Alluvial")
     width: 800
     height: 600
     visible: true
+
+    property variant settingsWindow;
 
     menuBar: MenuBar {
         Menu {
@@ -17,11 +20,30 @@ ApplicationWindow {
                 text: qsTr("&Open")
                 onTriggered: messageDialog.show(qsTr("Open action triggered"));
             }
+            MenuItem{
+                text: qsTr("&Settings")
+                onTriggered: {
+                    var component = Qt.createComponent("SettingsWindow.qml");
+                    if(component.status === Component.Ready){
+                        settingsWindow = component.createObject(superRootWindow);
+                        settingsWindow.show;
+                    }
+
+
+                }
+            }
+
             MenuItem {
                 text: qsTr("E&xit")
                 onTriggered: Qt.quit();
             }
         }
+    }
+    Window{
+        width: 650
+        height: 550
+
+
     }
 
     Item {
