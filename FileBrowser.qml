@@ -9,6 +9,7 @@ FileDialog{
          console.log("File/Directory Chosen: " + fileBrowserDialog.fileUrls);
          //TODO: store the file url with the other settings
          Qt.quit();
+
      }
      onRejected: {
          console.log("File Browser closed by cancel button");

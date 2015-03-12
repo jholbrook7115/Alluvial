@@ -3,7 +3,7 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
-
+import AlluvialSettings 0.1
 
 Window {
     id:settingsWindow
@@ -17,23 +17,11 @@ Window {
     Settings{
 
     }
-
-    /*
-    Settings{
-        category: "CredentialsAndLogins"
-        Settings{
-            category: "SpotifyCreds"
-        }
-        Settings{
-            category: "SoundcloudCreds"
-        }
-
+    ClientSettings{
 
     }
-    Settings{
-        //property alias fileSaveyThingyDirectory: fileBrowserDialog.fileUrl
-    }
-*/
+
+
     FileDialog{
         id: fileBrowserDialog
         title: "Please Select a File or Directory"
@@ -43,12 +31,16 @@ Window {
 
         //when a file is selected
          onAccepted: {
-             console.log("File/Directory Chosen: " + fileBrowserDialog.fileUrls);
+             console.log("File/Directory Chosen: " + fileBrowserDialog.fileUrl);
+             clientSettings.setValue(localFolderDir, fileBrowserDialog.fileUrl);
              //TODO: store the file url with the other settings
              //folder = fileBrowserDialog.f
              localFolderDir = fileBrowserDialog.fileUrl;
+               clientSettings.setValue(localFolderDir, fileBrowserDialog);
              fileBrowserDialog.close();
          }
+
+         //TODO: instead of close, how about add a dialog to get the user to choose a valid directory?
          onRejected: {
              console.log("File Browser closed by cancel button");
              fileBrowserDialog.close();
@@ -132,7 +124,13 @@ Window {
                     id: localFilePath
                     width: (parent.width - filePathBrowseButton.width)
                     height: 30
-                    text: localFolderDir
+                    text: {
+                        if(clientSettings.contains(localFolderDir) === false){
+                            localFilePath.text="[Choose a File Path]";
+                            console.log("Settings Debug >> No local file path was found in settings");
+                        }
+
+                    }
                     anchors.top: localFilePathTitle.bottom
                     anchors.left:parent.left
 

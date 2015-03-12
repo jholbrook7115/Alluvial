@@ -27,9 +27,18 @@ private:
                                                        QCoreApplication::instance()->organizationName(),
                                                        QCoreApplication::instance()->applicationName(),
                                                        parent){}
-        Q_INVOKABLE void setValue(const QString & key, const QVariant & value){ QSettings::setValue(key, value);}
-        Q_INVOKABLE QVariant value(const QString &key, const QVariant & defaultValue = QVariant()) const {
+    //Q_INVOAKBLE Macro which will expose this setValue function to qml elements
+    //This is used to set the value for the specified key
+        Q_INVOKABLE inline void setValue(const QString & key, const QVariant & value){
+            QSettings::setValue(key, value);
+        }
+    //Q_INVOAKBLE Macro which will expose this value function to qml elements
+    //This is used to return the value of ythe specified key
+        Q_INVOKABLE inline QVariant value(const QString &key, const QVariant & defaultValue = QVariant()) const {
             return QSettings::value(key, defaultValue);
+        }
+        Q_INVOKABLE inline bool contains(const QString &key) const{
+            return QSettings::contains(key);
         }
     signals:
     public slots:

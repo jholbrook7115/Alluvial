@@ -8,11 +8,6 @@
 #include "settings_storage.h"
 #include <QtQml>
 
-
-
-
-
-
 /*
 Settings::Settings(QObject *parent): QObject(parent){
 
@@ -30,6 +25,9 @@ int main(int argc, char *argv[])
 {
     QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial/main.qml");
     qmlRegisterSingletonType(QUrl("qrc:/GlobalVars.qml"), "Alluvial.Globals", 1, 0, "Globals");
+    qmlRegisterType<Settings_storing>("AlluvialSettings", 0, 1, "ClientSettings");
+
+    Settings_storing *settings = new Settings_storing();
 
 	QApplication app(argc, argv);
 
@@ -39,6 +37,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("Alluvial");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.rootContext()->setContextProperty("clientSettings", settings);
 
     /*
      * IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
