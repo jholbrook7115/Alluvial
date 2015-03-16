@@ -5,22 +5,28 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
 import AlluvialSettings 0.1
 
+/*
+  Settings Titles used:
+  "spotifyUsername"
+  "spotifyPassword"
+  "soundcloudUserName"
+  "soundcloudPassword"
+  "filePath"
+
+  */
+
 Window {
     id:settingsWindow
     width: 500
     height: 400
     visible: true
+    modality: Qt.WindowModal
     color: "#d3d3d3"
-    property string localFolderDir: "file path"
-    property string spotifyUserName: "Spotify UserName"
-    property string spotifyPassword: "spotify Password"
-    Settings{
-
-    }
-    ClientSettings{
-
-    }
-
+    property string localFolderDirTF: clientSettings.value("filePath", "No Previous Directory Saved").toString();
+    property string spotifyCredUserNameTF: clientSettings.value("spotifyUserName", "Username").toString();
+    property string spotifyCredPasswordTF: clientSettings.value("spotifyPassword", "Password").toString();
+    property string  soundcloudCredUserNameTF: clientSettings.value("soundcloudUserName", "Username").toString();
+    property string soundcloudCredPasswordTF: clientSettings.value("soundcloudPassword", "Password").toString();
 
     FileDialog{
         id: fileBrowserDialog
@@ -28,15 +34,16 @@ Window {
         selectExisting: true
         selectMultiple: false
         selectFolder: true
+        modality: Qt.WindowModal
 
         //when a file is selected
          onAccepted: {
              console.log("File/Directory Chosen: " + fileBrowserDialog.fileUrl);
-             clientSettings.setValue(localFolderDir, fileBrowserDialog.fileUrl);
+             //clientSettings.setValue("filePath", fileBrowserDialog.fileUrl);
              //TODO: store the file url with the other settings
              //folder = fileBrowserDialog.f
-             localFolderDir = fileBrowserDialog.fileUrl;
-               clientSettings.setValue(localFolderDir, fileBrowserDialog);
+             localFolderDirTF = fileBrowserDialog.fileUrl;
+
              fileBrowserDialog.close();
          }
 
@@ -50,8 +57,8 @@ Window {
     TabView{
         id: tabSettingsWindow
         width:settingsWindow.width
-        height: settingsWindow.height-75
-
+        height: settingsWindow.height
+        anchors.bottom: cancelButton.top
 
         Tab{
             id: tabSettingsCredentials
@@ -73,44 +80,61 @@ Window {
                     anchors.top:parent.top
                 }
                 TextField{
-                    id:spotifyUserName
-                    text:"Spotify username"
+                    id:spotifyUN
+                    text:spotifyCredUserNameTF
+                    onEditingFinished:{
+                         spotifyCredUserNameTF = spotifyUN.text;
+                    }
+
+                    placeholderText: "Spotify Username"
                     width:parent.width
                     height: 30
                     anchors.top: spotifyTitle.bottom
 
                 }
                 TextField{
-                    id: spotifyPassWord
-                    text:"Spotify password"
+                    id: spotifyPW
+
+                    placeholderText: "Spotify Password"
+                    echoMode: TextInput.Password
                     width:parent.width
                     height: 30
-                    anchors.top: spotifyUserName.bottom
-                    //anchors.bottom: spotifyCred.bottom
-                    //input for
+                    anchors.top: spotifyUN.bottom
+                    text:spotifyCredPasswordTF
+                    onEditingFinished: {
+                        spotifyCredPasswordTF = spotifyPW.text;
+                    }
+
                 }
                 Text{
                     id:soundCloudTitle
                     text: "SoundCloud Credentials"
                     font.bold: true
                     font.pixelSize: 20
-                    anchors.top:spotifyPassWord.bottom
+                    anchors.top:spotifyPW.bottom
                 }
-
                 TextField{
-                    id: soundCloudUserName
+                    id: soundCloudUN
                     width: parent.width
                     height: 30
                     anchors.top:soundCloudTitle.bottom
-                    text:"SoundCloud username"
+                    text: soundcloudCredUserNameTF
+                    onEditingFinished: {
+                        soundcloudCredUserNameTF = soundCloudUN.text;
+                    }
+                    placeholderText: "SoundCloud Username"
                 }
-
                 TextField{
-                    id: soundCloudPassWord
-                    anchors.top: soundCloudUserName.bottom
+                    id: soundCloudPW
+                    anchors.top: soundCloudUN.bottom
                     width: parent.width
                     height: 30
-                    text:"SoundCloud password"
+                    echoMode: TextInput.Password
+                    text: soundcloudCredPasswordTF
+                    onEditingFinished: {
+                        soundcloudCredPasswordTF = soundCloudPW.text;
+                    }
+                    placeholderText: "SoundCloud Password"
                 }
                 Text{
                     id:localFilePathTitle
@@ -118,24 +142,19 @@ Window {
                     text: "Local File Path"
                     font.pixelSize: 20
                     font.bold: true
-                    anchors.top: soundCloudPassWord.bottom
+                    anchors.top: soundCloudPW.bottom
                 }
                 TextField{
                     id: localFilePath
                     width: (parent.width - filePathBrowseButton.width)
                     height: 30
-                    text: {
-                        if(clientSettings.contains(localFolderDir) === false){
-                            localFilePath.text="[Choose a File Path]";
-                            console.log("Settings Debug >> No local file path was found in settings");
-                        }
-
-                    }
+                    readOnly: true
+                    text: localFolderDirTF
+                    placeholderText: "[Choose a File Path]"
                     anchors.top: localFilePathTitle.bottom
                     anchors.left:parent.left
 
                 }
-
                 Button{
                     id:filePathBrowseButton
                     text:"Browse"
@@ -147,7 +166,6 @@ Window {
                         fileBrowserDialog.open();
                     }
                 }
-
             }
         }
         Tab{
@@ -168,7 +186,6 @@ Window {
             width:settingsWindow.width
             height: settingsWindow.height-75
         }
-
         Tab{
             id: tabSettingsMisc
             title: "Misc"
@@ -199,6 +216,13 @@ Window {
 //            save settings to the config file
 //            }
             console.log("(SettingsWindow) >> Clicked:Ok Setting Button");
+            clientSettings.setValue("spotifyUserName", spotifyCredUserNameTF);
+            clientSettings.setValue("spotifyPassword", spotifyCredPasswordTF);
+            clientSettings.setValue("soundcloudUserName", soundcloudCredUserNameTF);
+            clientSettings.setValue("soundcloudPassword", soundcloudCredPasswordTF);
+            clientSettings.setValue("filePath", localFolderDirTF);
+            clientSettings.sync();
+
             settingsWindow.close();
         }
     }
@@ -212,10 +236,22 @@ Window {
 //              save settings to the config file
 //            }
             console.log("(SettingsWindow) >> Clicked:Apply Setting Button");
+            clientSettings.setValue("spotifyUserName", spotifyCredUserNameTF);
+            clientSettings.setValue("spotifyPassword", spotifyCredPasswordTF);
+            clientSettings.setValue("soundcloudUserName", soundcloudCredUserNameTF);
+            clientSettings.setValue("soundcloudPassword", soundcloudCredPasswordTF);
+            clientSettings.setValue("filePath", localFolderDirTF);
+            clientSettings.sync();
+            /*
+            clientSettings.setValue("spotifyUserName", spotifyUN.text);
+            clientSettings.setValue("spotifyPassword", spotifyPW.text);
+            clientSettings.setValue("soundcloudUserName", soundCloudUN.text);
+            clientSettings.setValue("soundcloudPassword", soundCloudPW.text);
+            clientSettings.setValue("filePath", fileBrowserDialog);
+            */
         }
 
     }
-
 
 
 

@@ -23,18 +23,20 @@ QVariant Settings::value(const QString &key, const QVariant &defaultValue) const
 
 int main(int argc, char *argv[])
 {
-    QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial/main.qml");
+
     qmlRegisterSingletonType(QUrl("qrc:/GlobalVars.qml"), "Alluvial.Globals", 1, 0, "Globals");
     qmlRegisterType<Settings_storing>("AlluvialSettings", 0, 1, "ClientSettings");
 
-    Settings_storing *settings = new Settings_storing();
 
 	QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    app.setOrganizationName("AlphaBuilders");
+    app.setOrganizationName("AlluvialAlphaBuild");
     app.setOrganizationDomain("couponbug.com");
     app.setApplicationName("Alluvial");
+
+    Settings_storing *settings = new Settings_storing();
+
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     engine.rootContext()->setContextProperty("clientSettings", settings);

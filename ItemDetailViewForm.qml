@@ -6,9 +6,11 @@ Item {
     id: listView
     transformOrigin: Item.Center
 
+    property string hexcolor: "#5599FF"
+
     Rectangle {
         anchors.fill: parent
-        color: "#ffffff"
+        color: hexcolor
     }
 
     ColumnLayout {
@@ -20,6 +22,7 @@ Item {
             anchors.topMargin: parent.height * 0.05
             height: parent.height * 0.5
             width: parent.width
+            color: "transparent"
 
             Image {
                 id: albumArt
@@ -27,6 +30,7 @@ Item {
                 fillMode: Image.PreserveAspectFit
                 height: parent.height - artistText.height - albumText.height
                 width: parent.width
+
             }
 
             Text {
@@ -54,6 +58,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: parent.height * 0.4
+            color: "transparent"
 
             ColumnLayout {
                 id:trackListView
@@ -114,6 +119,11 @@ Item {
                 }
             }
         }
+    }
+    function findBGColor(){
+        var img = albumArt;
+
+
     }
 }
 

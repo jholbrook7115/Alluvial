@@ -8,6 +8,7 @@ Rectangle {
     id:searchTextRoot
     height: 30
     width: parent.width
+    color: "#5599ff"
 
     TextField{
         id: searchBarTextField

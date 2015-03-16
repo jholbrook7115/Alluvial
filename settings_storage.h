@@ -8,20 +8,17 @@
 #include <QFile>
 #include <QCoreApplication>
 
-
+///
+/// \class Settings_storing
+///
+/// \preliminary
+/// \brief The Settings_storing class
+///
+/// This class is a wrapper around the QSettings class, develooped by Qt
+/// This particular class will perform ________
+///
 class Settings_storing:public QSettings{
     Q_OBJECT
-    /*
-    Q_PROPERTY(QString value READ getData WRITE saveData NOTIFY valueChanged)
-public:
-    explicit Settings(QObject *parent=0);
-    Q_INVOKABLE void saveData(const QString & key, const QVariant & value);
-    Q_INVOKABLE QVariant getData();
-signals:
-public slots:
-private:
-    QObject client_settings;
-*/
     public:
         explicit Settings_storing(QObject*parent=0): QSettings(QSettings::NativeFormat, QSettings::UserScope,
                                                        QCoreApplication::instance()->organizationName(),
@@ -33,13 +30,17 @@ private:
             QSettings::setValue(key, value);
         }
     //Q_INVOAKBLE Macro which will expose this value function to qml elements
-    //This is used to return the value of ythe specified key
+    //This is used to return the value of the specified key
         Q_INVOKABLE inline QVariant value(const QString &key, const QVariant & defaultValue = QVariant()) const {
             return QSettings::value(key, defaultValue);
         }
         Q_INVOKABLE inline bool contains(const QString &key) const{
             return QSettings::contains(key);
         }
+        Q_INVOKABLE inline void sync(){
+            QSettings::sync();
+        }
+
     signals:
     public slots:
     private:

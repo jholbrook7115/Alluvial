@@ -6,6 +6,7 @@
 
 ---------------------------Additions---------------------------
 - song length display
+- change main display bg color to compliment the album artwork
 
 ---------------------------New Views/Windows---------------------------
 
