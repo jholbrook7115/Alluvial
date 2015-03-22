@@ -7,9 +7,11 @@ Item {
     id: listView
     transformOrigin: Item.Center
 
+    property string hexcolor: "#5599FF"
+
     Rectangle {
         anchors.fill: parent
-        color: "#ffffff"
+        color: hexcolor
     }
 
     QtObject {
@@ -35,28 +37,13 @@ Item {
     ColumnLayout {
         anchors.fill:parent
 
-        states: [
-            State {
-                name: 'updateSong'
-                PropertyChanges {
-                    target: songMeta
-                    hash: Globals.hash
-                    songName: Globals.songName
-                    album: Globals.album
-                    albumArt: Globals.albumArt
-                    artist: Globals.artist
-                    length: Globals.length
-                    size: Globals.size
-                }
-            }
-        ]
-
         Rectangle {
             id: albumDetail
             anchors.top: parent.top
             anchors.topMargin: parent.height * 0.05
             anchors.fill: parent
             anchors.bottomMargin: parent.height * 0.05
+			color: "transparent"
 
             Image {
                 id: albumArt
@@ -98,6 +85,7 @@ Item {
                 x: parent.width * 0.5 - this.width * 0.5
                 text: "Album: " + songMeta.album
                 font.family: "Arial"
+                font.bold: true
                 font.pixelSize: 16
             }
         }

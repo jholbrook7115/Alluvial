@@ -29,7 +29,7 @@ ColumnLayout {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        color: "#56B3BF"
+        color: "#607D8B"
 
         RowLayout {
             id: sliderRow

@@ -18,7 +18,7 @@ ColumnLayout {
         height: parent.height
         x: 0
         y: 0
-        color: 'light blue'
+        color: '#E0E0E0'
         Layout.fillWidth: true
         Layout.minimumWidth: 100
         Layout.fillHeight: true
@@ -63,7 +63,7 @@ ColumnLayout {
             y: dropdownPlaylistOptions.height + 5
             width: parent.width
             height: parent.height
-            color: 'light blue'
+            color: "transparent"
 
             Layout.fillWidth: true
             Layout.minimumWidth: playListPanel.width
