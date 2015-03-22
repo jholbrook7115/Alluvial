@@ -35,6 +35,16 @@ ApplicationWindow {
 
         state: "itemDetailView"
 
+        signal changedFocus
+
+        onStateChanged: {
+            changedFocus
+        }
+
+        onChangedFocus: {
+            console.log("Focus changed")
+        }
+
         //TODO: gotta talk about these state names.  They seem confusing to me since
         //they are also the names of the ids used in this file
 
@@ -66,11 +76,10 @@ ApplicationWindow {
                     target: itemDetailViewForm
                     opacity: 1
                     z: 1
+                    state: 'updateSong'
                 }
             }
-
         ]
-
 
         SearchResults{
             id:searchResultsPane
@@ -94,6 +103,7 @@ ApplicationWindow {
             id: playBackBar
             z: 2
         }
+
         PlaylistPanel{
             id: playListPanel
             z: 2

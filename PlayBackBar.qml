@@ -21,11 +21,6 @@ ColumnLayout {
         property string artist: "Taylor Swift"
         property int length: 100
         property double size: 1024
-
-        onHashChanged: {
-            playbackSlider.value = 0
-            timer.running = true
-        }
     }
 
     Rectangle {
@@ -85,16 +80,19 @@ ColumnLayout {
                             length: Globals.length
                             size: Globals.size
                         }
+                        PropertyChanges {
+                            target: playbackSlider
+                            value: 0
+                            maximumValue: activeSongMeta.length
+                        }
+                        PropertyChanges {
+                            target: playButton
+                            state: 'play'
+                        }
                     }
                 ]
 
                 onValueChanged: {
-                    if (Globals.hash !== activeSongMeta.hash)
-                    {
-                        console.log("Different song chosen" + Globals.hash)
-                        timer.running = false
-                        playbackSlider.state = 'newSong'
-                    }
 
                     if (playbackSlider.value >= playbackSlider.maximumValue)
                     {
