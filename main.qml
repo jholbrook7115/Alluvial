@@ -4,10 +4,11 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 
+
 ApplicationWindow {
     id:superRootWindow
     title: qsTr("Alluvial")
-    width: 800
+    width: 850
     height: 600
     visible: true
 
@@ -40,7 +41,7 @@ ApplicationWindow {
         }
     }
     Window{
-        width: 650
+        width: 700
         height: 550
 
 
@@ -56,9 +57,6 @@ ApplicationWindow {
         anchors.fill: parent
 
         state: "itemDetailView"
-
-        //TODO: gotta talk about these state names.  They seem confusing to me since
-        //they are also the names of the ids used in this file
 
         states: [
             State {
@@ -96,8 +94,6 @@ ApplicationWindow {
 
         SearchResults{
             id:searchResultsPane
-            color: "#000000"
-
             anchors.left: parent.left
             anchors.right: playListPanel.left
             anchors.top: searchBarTextField.bottom

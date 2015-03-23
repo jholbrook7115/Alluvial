@@ -7,10 +7,10 @@
 ---------------------------Additions---------------------------
 - song length display
 - change main display bg color to compliment the album artwork
+- create more features for the Settings Menu
 
 ---------------------------New Views/Windows---------------------------
 
-- LARGE: create settings menu
 
 
 ---------------------------Need to Add Functionality to---------------------------------

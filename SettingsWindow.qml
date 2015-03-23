@@ -22,6 +22,8 @@ Window {
     visible: true
     modality: Qt.WindowModal
     color: "#d3d3d3"
+
+    //The list of settings which are saved/loaded from the settinsg file
     property string localFolderDirTF: clientSettings.value("filePath", "No Previous Directory Saved").toString();
     property string spotifyCredUserNameTF: clientSettings.value("spotifyUserName", "Username").toString();
     property string spotifyCredPasswordTF: clientSettings.value("spotifyPassword", "Password").toString();

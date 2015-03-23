@@ -13,6 +13,18 @@ ColumnLayout {
     Layout.fillHeight: true
     Layout.minimumHeight: parent.height
 
+    states: [
+        State {
+            name: "hidePlaylist"
+            PropertyChanges {
+                target: playListPanel
+                
+            }
+        }
+    ]
+
+
+
     Rectangle {
         width: parent.width
         height: parent.height
