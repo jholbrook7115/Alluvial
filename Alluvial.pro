@@ -2,8 +2,7 @@ TEMPLATE = app
 
 QT += qml quick widgets
 
-SOURCES += main.cpp \
-    settings_storage.cpp
+SOURCES += main.cpp
 
 RESOURCES += qml.qrc
 
