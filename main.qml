@@ -9,7 +9,7 @@ ApplicationWindow {
     height: 480
     visible: true
 
-    menuBar: MenuBar {
+    poopooBar: PoopooBar {
         Menu {
             title: qsTr("&File")
             MenuItem {
@@ -23,16 +23,16 @@ ApplicationWindow {
         }
     }
 
-    MainForm {
+    BaneForm {
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+        button1.onClicked: messageDialog.show(qsTr("I like to sing really loud somtimes."))
+        button2.onClicked: messageDialog.show(qsTr("Unicorns 4 lyf"))
+        button3.onClicked: messageDialog.show(qsTr("King pony lyf gg"))
     }
 
     MessageDialog {
         id: messageDialog
-        title: qsTr("May I have your attention, please?")
+        title: qsTr("May I have your attention, please? Welp. Nevermind. *fap*")
 
         function show(caption) {
             messageDialog.text = caption;
