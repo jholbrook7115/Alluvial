@@ -2,9 +2,14 @@ TEMPLATE = app
 
 QT += qml quick widgets
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    jsonformatter.cpp \
+    settings_storage.cpp \
+    qtlibspotify.cpp
 
 RESOURCES += qml.qrc
+
+CONFIG += c++11
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -13,6 +18,16 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    settings_storage.h
+    settings_storage.h \
+    jsonformatter.h \
+    qtlibspotify.h \
+    ../appkey.h
 DISTFILES += \
     qmldir.txt
+
+#unix:!macx: LIBS += -lspotify
+
+unix:!macx: LIBS += -L$$PWD/../../../../../user/local/lib/ -lspotify
+
+INCLUDEPATH += $$PWD/../../../../../user/local/include
+DEPENDPATH += $$PWD/../../../../../user/local/include

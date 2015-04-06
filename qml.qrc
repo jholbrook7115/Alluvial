@@ -23,13 +23,12 @@
         <file>SearchResultsSongSubList.qml</file>
         <file>z_TODO_List.txt</file>
         <file>SettingsWindow.qml</file>
-        <file>Test.qml</file>
-        <file>TestForm.ui.qml</file>
         <file>FileBrowser.qml</file>
         <file>Scrollbar.qml</file>
         <file>SearchResultsHeader.qml</file>
         <file>icons/back.png</file>
         <file>GlobalVars.qml</file>
         <file>qmldir.txt</file>
+        <file>LoginScreen.qml</file>
     </qresource>
 </RCC>

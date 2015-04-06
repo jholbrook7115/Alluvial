@@ -37,19 +37,13 @@ Window {
         selectMultiple: false
         selectFolder: true
         modality: Qt.WindowModal
-
         //when a file is selected
          onAccepted: {
              console.log("File/Directory Chosen: " + fileBrowserDialog.fileUrl);
-             //clientSettings.setValue("filePath", fileBrowserDialog.fileUrl);
-             //TODO: store the file url with the other settings
-             //folder = fileBrowserDialog.f
              localFolderDirTF = fileBrowserDialog.fileUrl;
 
              fileBrowserDialog.close();
          }
-
-         //TODO: instead of close, how about add a dialog to get the user to choose a valid directory?
          onRejected: {
              console.log("File Browser closed by cancel button");
              fileBrowserDialog.close();
@@ -59,7 +53,7 @@ Window {
     TabView{
         id: tabSettingsWindow
         width:settingsWindow.width
-        height: settingsWindow.height
+        anchors.fill: parent
         anchors.bottom: cancelButton.top
 
         Tab{
@@ -96,7 +90,6 @@ Window {
                 }
                 TextField{
                     id: spotifyPW
-
                     placeholderText: "Spotify Password"
                     echoMode: TextInput.Password
                     width:parent.width
@@ -201,9 +194,6 @@ Window {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         onClicked: {
-            //if( current_settings_values != config_file_values){
-            //      prompt user if they want to quit without saving settings
-            // }
             console.log("(SettingsWindow) >> Clicked:Cancel Setting Button");
             settingsWindow.close();
         }
@@ -214,9 +204,6 @@ Window {
         anchors.right: cancelButton.left
         anchors.bottom: parent.bottom
         onClicked: {
-//            if(current_settings_values != config_file_values){
-//            save settings to the config file
-//            }
             console.log("(SettingsWindow) >> Clicked:Ok Setting Button");
             clientSettings.setValue("spotifyUserName", spotifyCredUserNameTF);
             clientSettings.setValue("spotifyPassword", spotifyCredPasswordTF);
@@ -234,9 +221,6 @@ Window {
         anchors.right: okayButton.left
         anchors.bottom: parent.bottom
         onClicked: {
-//            if(current_settings_values != config_file_values){
-//              save settings to the config file
-//            }
             console.log("(SettingsWindow) >> Clicked:Apply Setting Button");
             clientSettings.setValue("spotifyUserName", spotifyCredUserNameTF);
             clientSettings.setValue("spotifyPassword", spotifyCredPasswordTF);
@@ -244,13 +228,7 @@ Window {
             clientSettings.setValue("soundcloudPassword", soundcloudCredPasswordTF);
             clientSettings.setValue("filePath", localFolderDirTF);
             clientSettings.sync();
-            /*
-            clientSettings.setValue("spotifyUserName", spotifyUN.text);
-            clientSettings.setValue("spotifyPassword", spotifyPW.text);
-            clientSettings.setValue("soundcloudUserName", soundCloudUN.text);
-            clientSettings.setValue("soundcloudPassword", soundCloudPW.text);
-            clientSettings.setValue("filePath", fileBrowserDialog);
-            */
+
         }
 
     }

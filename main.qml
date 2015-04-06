@@ -40,11 +40,28 @@ ApplicationWindow {
             }
         }
     }
-    Window{
-        width: 700
-        height: 550
 
+    LoginScreen{
+        id:login_screen
+        anchors.fill: parent
+        z:100
+        states: [
+            State{
+                name: "loginScreenActive"
+                PropertyChanges{
+                    target: login_screen
+                    z: 100
+                }
+            },
 
+            State{
+                name: "loginScreenClose"
+             PropertyChanges{
+                    target:login_screen
+                    z:-100
+                }
+            }
+        ]
     }
 
     Item {

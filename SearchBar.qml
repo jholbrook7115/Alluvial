@@ -10,6 +10,8 @@ Rectangle {
     width: parent.width
     color: "#5599ff"
 
+    signal searchQuery(string input);
+
     TextField{
         id: searchBarTextField
 
@@ -17,10 +19,13 @@ Rectangle {
         onEditingFinished: {
             //TODO: send the text in the field to somewhere which will actually do something with it
             console.log("Search text input");
+
             var inputText = getText(0,128);
+            searchQuery(inputText);
             mainWindow.state="showSearchResultsPane"
             searchBarTextField.selectAll();
             searchBarTextField.focus=false;
+
         }
     }
 /*Jefferson Holbrook
@@ -30,19 +35,6 @@ For now, though, it works.*/
         anchors.fill: parent
         opacity: 1
         hoverEnabled: true
-        /*
-        onEntered: {
-            if(searchBarTextField.opacity != 0.5){ }
-            else{
-                searchBarTextField.opacity = 1;
-            }
-        }
-        onExited: {
-            if(searchBarTextField.focus==false){
-                searchBarTextField.opacity = 0.5;
-            }
-        }
-        */
         onClicked: {
             searchBarTextField.forceActiveFocus();
         }
