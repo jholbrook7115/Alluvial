@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Initializing the spotify stuff.  This particular is used for testing and SHOULD be changed later on.
     QtLibSpotify *spotifyObj = new QtLibSpotify();
-    spotifyObj->initSpotify("1239607407", "Quarantine2019)");
+    spotifyObj->initSpotify("1234567890", "default password");
 
 
     //QList<QObject *> parent=engine.rootObjects();

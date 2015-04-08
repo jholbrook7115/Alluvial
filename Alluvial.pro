@@ -27,7 +27,7 @@ DISTFILES += \
 
 #unix:!macx: LIBS += -lspotify
 
-unix:!macx: LIBS += -L$$PWD/../../../../../user/local/lib/ -lspotify
+unix:!macx: LIBS += -L$$PWD/../../../../../usr/local/lib/ -lspotify
 
-INCLUDEPATH += $$PWD/../../../../../user/local/include
-DEPENDPATH += $$PWD/../../../../../user/local/include
+INCLUDEPATH += $$PWD/../../../../../usr/local/include
+DEPENDPATH += $$PWD/../../../../../usr/local/include

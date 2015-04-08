@@ -92,7 +92,11 @@ static void search_complete(sp_search* search, void* userdata){
     }
     sp_search_release(search);
 }
-
+/*
+static getDevice_ID(){
+    FILE file;
+}
+*/
 QtLibSpotify::QtLibSpotify()
 {
     //emit spotifyLogin(username, password);
@@ -108,8 +112,11 @@ QtLibSpotify::~QtLibSpotify()
 int QtLibSpotify::initSpotify(QString username, QString password){
 
     sp_session_config config;
+    memset(&config, 0, sizeof(config));
     sp_error error;
+    sp_error login_error;
     sp_session *session;
+
     qDebug() << "AppKey:" << g_appkey;
 
     config.api_version=SPOTIFY_API_VERSION;
@@ -121,21 +128,26 @@ int QtLibSpotify::initSpotify(QString username, QString password){
 
         };
     */
+    config.proxy="193.235.32.164";
     config.application_key = g_appkey;
     qDebug() << g_appkey;
-   config.application_key_size = sizeof(g_appkey);
-   qDebug() << sizeof(g_appkey);
+    config.application_key_size = sizeof(g_appkey);
+    qDebug() << sizeof(g_appkey);
+
     config.user_agent = USER_AGENT;
     config.callbacks = &callbacks;
+   // config.device_id= getDevice_ID();
     qDebug() << "next";
 
     qDebug()<< "initSpotify: Session_create result: " << (error = sp_session_create(&config, &session));
-    if(SP_ERROR_OK != error){
+    if(SP_ERROR_OK != error)
+    {
         qDebug() << "Spotify: failed to create session" << sp_error_message(error);
         return 2;
     }
-    else{
-        sp_error login_error;
+    else
+    {
+
         login_error = spotifyLogin(session, username, password);
         if(SP_ERROR_OK != login_error){
             qDebug() << "Spotify: Login Error - " << sp_error_message(login_error);
@@ -166,10 +178,12 @@ void QtLibSpotify::playSongSpotify(sp_session *session, sp_track* track){
  */
 sp_error QtLibSpotify::spotifyLogin(sp_session *user_session, QString username, QString password){
     qDebug() << "spotifyLogin Signal was picked up";
+    sp_error spotifyLoginError;
     const char* strUsername = convertToString(username);
     const char* strPassword = convertToString(password);
     //qDebug() << "Spotify: try relogin - " << sp_session_relogin(user_session);
-    qDebug() <<"Spotify: try login - " << sp_session_login(user_session, strUsername, strPassword, 1, NULL);
+    qDebug() <<"Spotify: try login - " << sp_error_message(spotifyLoginError=sp_session_login(user_session, strUsername, strPassword, 1, NULL));
+    return spotifyLoginError;
 }
 
 sp_error QtLibSpotify::spotifyLogout(sp_session *user_session){
