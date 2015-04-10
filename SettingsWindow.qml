@@ -14,7 +14,6 @@ import AlluvialSettings 0.1
   "filePath"
 
   */
-
 Window {
     id:settingsWindow
     width: 500

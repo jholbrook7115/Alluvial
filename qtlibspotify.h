@@ -14,13 +14,17 @@ public:
     QtLibSpotify();
     ~QtLibSpotify();
     int initSpotify(QString username, QString password);
-    void searchSpotify(sp_session* session, QString searchQuery);
+    sp_search *searchSpotify(sp_session* session, QString searchQuery);
     void playSongSpotify(sp_session* session, sp_track* track);
+    sp_connectionstate GetConnectionState();
 
+    bool isLoggedIn();
 public slots:
-    sp_error spotifyLogin(sp_session *user_session, QString username, QString password);
+    sp_error spotifyLogin(QString username, QString password);
     sp_error spotifyLogout(sp_session *user_session);
-
+    sp_error releaseSpotifySession(sp_session *user_session);
+    sp_error closing();
+    void search(QString searchString);
 };
 
 #endif // QTLIBSPOTIFY_H

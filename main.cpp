@@ -8,6 +8,8 @@
 #include "settings_storage.h"
 #include <QtQml>
 #include <QtCore>
+#include <thread>
+#include <chrono>
 
 #include <qtlibspotify.h>
 
@@ -31,8 +33,7 @@ int main(int argc, char *argv[])
 
     // Initializing the spotify stuff.  This particular is used for testing and SHOULD be changed later on.
     QtLibSpotify *spotifyObj = new QtLibSpotify();
-    spotifyObj->initSpotify("1234567890", "default password");
-
+    spotifyObj->initSpotify("jeffersonholbrook", "Quarantine2019)");
 
     //QList<QObject *> parent=engine.rootObjects();
 
@@ -43,5 +44,14 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("clientSettings", settings);
 
 
-    return app.exec();
+    //spotifyObj->spotifyLogin("holbrook002@gmail.com", "Quarantine2019)");
+    //spotifyObj->search("Bruno Mars");
+
+    int appInt = app.exec();
+
+    //On exit Code
+    qDebug() << "Spotify:  Main Window Closing; Tell Spotify to release its current session";
+    emit spotifyObj->closing();
+
+    return appInt;
 }
