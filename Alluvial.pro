@@ -1,9 +1,12 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets multimedia
 
 SOURCES += main.cpp \
-    settings_storage.cpp
+    mediaplayer.cpp \
+    playlist_item.cpp \
+    playlist.cpp \
+    playlist_handler.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,6 +17,11 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    settings_storage.h
+    settings_storage.h \
+    mediaplayer.h \
+    playlist_item.h \
+    playlist.h \
+    playlist_handler.h
 DISTFILES += \
-    qmldir.txt
+    qmldir.txt \
+    Doxyfile
