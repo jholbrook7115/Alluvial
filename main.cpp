@@ -10,6 +10,7 @@
 #include <QtQml>
 #include <QMediaPlayer>
 #include "playlist.h"
+#include "playlist_handler.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("clientSettings", settings);
 
     mediaPlayer *mp = new mediaPlayer();
-    playlist *ph = new playlist("Playlist 1");
+    playlist_handler *ph = new playlist_handler();
 
     QObject *root = engine.rootObjects().first();
     QObject *playButton = root->findChild<QObject*>("playButton");
@@ -63,17 +64,17 @@ int main(int argc, char *argv[])
     QObject::connect(playbackSlider, SIGNAL(playbackPosChanged(int)),
         mp, SLOT(skipTo(int)));
 
-    //QObject::connect(shufButton, SIGNAL(clicked()),
-    //    ph, SLOT(shuffleButton()));
+    QObject::connect(shufButton, SIGNAL(clicked()),
+        ph, SLOT(shuffleSwitch()));
 
-    //QObject::connect(repButton, SIGNAL(clicked()),
-    //    ph, SLOT(repeatButton()));
+    QObject::connect(repButton, SIGNAL(clicked()),
+        ph, SLOT(repeatSwitch()));
 
-    //QObject::connect(leftSkip, SIGNAL(clicked()),
-    //    ph, SLOT(previousSong()));
+    QObject::connect(leftSkip, SIGNAL(clicked()),
+        ph, SLOT(previousSong()));
 
-    //QObject::connect(rightSkip, SIGNAL(clicked()),
-    //    ph, SLOT(nextSong()));
+    QObject::connect(rightSkip, SIGNAL(clicked()),
+        ph, SLOT(nextSong()));
 
     return app.exec();
 }
