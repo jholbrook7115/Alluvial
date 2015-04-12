@@ -78,11 +78,19 @@ QString playlist::getSongHash(int songIndex)
     return this->songs[songIndex].getHash();
 }
 
+/*!
+ * \brief playlist::getPlaylistTitle Get the title of the playlist
+ * \return QString containing playlist title
+ */
 QString playlist::getPlaylistTitle()
 {
     return this->name;
 }
 
+/*!
+ * \brief playlist::getSongs Get the vector containing all songs
+ * \return Vector containing the songs
+ */
 std::vector<playlist_item> playlist::getSongs()
 {
     return this->songs;

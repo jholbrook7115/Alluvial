@@ -45,11 +45,11 @@ public slots:
     void nextSong();
 
 private:
-    std::vector<playlist> playlists;
-    int activePlaylist;
+    std::vector<playlist> playlists; /**< Vector of all playlist structures */
+    int activePlaylist; /**< The index of the current active playlist */
     int activeSong; /**< The index of the current song that is playing */
-    bool shuffle;
-    bool repeat;
+    bool shuffle; /**< Boolean indicator - shuffle activated */
+    bool repeat; /**< Boolean indicator - repeat activated */
 };
 
 #endif // PLAYLIST_HANDLER_H

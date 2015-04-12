@@ -17,28 +17,46 @@ playlist_handler::~playlist_handler()
 
 }
 
+/*!
+ * \brief playlist_handler::addPlaylist Add a new playlist to the beginning of the list. Default titled.
+ */
 void playlist_handler::addPlaylist()
 {
     playlist *newPlaylist = new playlist();
     this->playlists.insert(this->playlists.begin(), *newPlaylist);
 }
 
+/*!
+ * \brief playlist_handler::addPlaylist Add a playlist to the beginning of the list
+ * \param newPlaylist The playlist to be added
+ */
 void playlist_handler::addPlaylist(playlist newPlaylist)
 {
     this->playlists.insert(this->playlists.begin(), newPlaylist);
 }
 
+/*!
+ * \brief playlist_handler::addPlaylist Add a playlist to the beginning of the list
+ * \param playlistTitle The title of the playlist to be added.
+ */
 void playlist_handler::addPlaylist(QString playlistTitle)
 {
     playlist *newPlaylist = new playlist(playlistTitle);
     this->playlists.insert(this->playlists.begin(), *newPlaylist);
 }
 
+/*!
+ * \brief playlist_handler::dropPlaylists Remove all playlists from the list
+ */
 void playlist_handler::dropPlaylists()
 {
     this->playlists.erase(this->playlists.begin(),this->playlists.end());
 }
 
+/*!
+ * \brief playlist_handler::dropPlaylist Remove a playlist from the list
+ * \param playlistToDrop The playlist item to be dropped.
+ */
 void playlist_handler::dropPlaylist(playlist playlistToDrop)
 {
     for ( int index = 0 ; index < this->playlists.size() ; index++ )
@@ -51,6 +69,10 @@ void playlist_handler::dropPlaylist(playlist playlistToDrop)
     }
 }
 
+/*!
+ * \brief playlist_handler::dropPlaylist Remove a playlist from the list
+ * \param playlistTitleToDrop The title of the playlist to drop
+ */
 void playlist_handler::dropPlaylist(QString playlistTitleToDrop)
 {
     for ( int index = 0 ; index < this->playlists.size() ; index++ )
@@ -116,11 +138,19 @@ void playlist_handler::jumpToSong(int newIndex)
     this->activeSong = newIndex;
 }
 
+/*!
+ * \brief playlist_handler::getPlaylists Get all of the playlists in the wrapper
+ * \return A vector containing all playlists item
+ */
 std::vector<playlist> playlist_handler::getPlaylists()
 {
     return this->playlists;
 }
 
+/*!
+ * \brief playlist_handler::getPlaylistNames Get a list containing all playlist names
+ * \return A vector containing playlist names
+ */
 std::vector<QString> playlist_handler::getPlaylistNames()
 {
     std::vector<QString> titles;
@@ -131,6 +161,11 @@ std::vector<QString> playlist_handler::getPlaylistNames()
     return titles;
 }
 
+/*!
+ * \brief playlist_handler::getPlaylistSongNames Get a vector containing the songs in the current playlist
+ * \param playlistIndex The index of the playlist to get songs from
+ * \return A vector containing song names
+ */
 std::vector<QString> playlist_handler::getPlaylistSongNames(int playlistIndex)
 {
     playlist toCheck = this->playlists.at(playlistIndex);
@@ -142,11 +177,19 @@ std::vector<QString> playlist_handler::getPlaylistSongNames(int playlistIndex)
     return titles;
 }
 
+/*!
+ * \brief playlist_handler::getActivePlaylist Get the current playlist being used
+ * \return The active playlist
+ */
 playlist playlist_handler::getActivePlaylist()
 {
     return this->playlists[this->activePlaylist];
 }
 
+/*!
+ * \brief playlist_handler::getActivePlaylistIndex Get the index of the active playlist
+ * \return An int indicating which playlist to use
+ */
 int playlist_handler::getActivePlaylistIndex()
 {
     return this->activePlaylist;
@@ -160,36 +203,63 @@ QString playlist_handler::getActiveSongHash()
     return this->playlists.at(this->activePlaylist).getSongs()[this->activeSong].getHash();
 }
 
+/*!
+ * \brief playlist_handler::getShuffle Get the state of the shuffle function
+ * \return A boolean indicator for the shuffle value
+ */
 bool playlist_handler::getShuffle()
 {
     return this->shuffle;
 }
 
+/*!
+ * \brief playlist_handler::getRepeat Get the state of the repeat function
+ * \return A boolean indicator for the repeat value
+ */
 bool playlist_handler::getRepeat()
 {
     return this->repeat;
 }
 
+/*!
+ * \brief playlist_handler::setActivePlaylistIndex Change which playlist is playing
+ * \param newIndex The index of the playlist to be used
+ */
 void playlist_handler::setActivePlaylistIndex(int newIndex)
 {
     this->activePlaylist = newIndex;
 }
 
+/*!
+ * \brief playlist_handler::setActiveSongIndex Change which song is playing
+ * \param newIndex The index of the song to be set
+ */
 void playlist_handler::setActiveSongIndex(int newIndex)
 {
     this->activeSong = newIndex;
 }
 
+/*!
+ * \brief playlist_handler::setShuffle Set the shuffle function value
+ * \param shuf A boolean indicator for the new set
+ */
 void playlist_handler::setShuffle(bool shuf)
 {
     this->shuffle = shuf;
 }
 
+/*!
+ * \brief playlist_handler::setRepeat Set the repeat function value
+ * \param rep A boolean indicator for the new set
+ */
 void playlist_handler::setRepeat(bool rep)
 {
     this->repeat = rep;
 }
 
+/*!
+ * \brief playlist_handler::repeatSwitch Toggle the state of the repeat function
+ */
 void playlist_handler::repeatSwitch()
 {
     if ( this->repeat )
@@ -203,6 +273,9 @@ void playlist_handler::repeatSwitch()
 
 }
 
+/*!
+ * \brief playlist_handler::shuffleSwitch Toggle the state of the shuffle function
+ */
 void playlist_handler::shuffleSwitch()
 {
     if (this->shuffle )
@@ -215,12 +288,20 @@ void playlist_handler::shuffleSwitch()
     }
 }
 
+/*!
+ * \brief playlist_handler::changePlaylist Switch the active playlist to the specified playlist.
+ * \param newIndex The index of the playlist to switch to
+ */
 void playlist_handler::changePlaylist(int newIndex)
 {
     this->setActivePlaylistIndex(newIndex);
     this->setActiveSongIndex(0);
 }
 
+/*!
+ * \brief playlist_handler::changePlaylist Switch the active playlist to the specified playlist.
+ * \param playlistTitle The title of the playlist to switch to.
+ */
 void playlist_handler::changePlaylist(QString playlistTitle)
 {
     for ( int index = 0 ; index < this->playlists.size() ; index++ )
