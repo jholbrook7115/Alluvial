@@ -5,7 +5,8 @@ QT += qml quick widgets
 SOURCES += main.cpp \
     jsonformatter.cpp \
     settings_storage.cpp \
-    qtlibspotify.cpp
+    qtlibspotify.cpp \
+    qtspotifythread.cpp
 
 RESOURCES += qml.qrc
 
@@ -21,7 +22,8 @@ HEADERS += \
     settings_storage.h \
     jsonformatter.h \
     qtlibspotify.h \
-    ../appkey.h
+    ../appkey.h \
+    qtspotifythread.h
 DISTFILES += \
     qmldir.txt
 

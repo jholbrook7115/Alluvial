@@ -4,13 +4,13 @@ import QtQuick.Layouts 1.1
 import Alluvial.Globals 1.0
 
 ColumnLayout {
-    width: parent.width * 0.8
+    width: parent.width
     height: 100
     x: 0
     y: parent.height - 100
     Layout.fillHeight: true
     Layout.minimumHeight: 80
-    Layout.maximumHeight: 80
+    Layout.maximumHeight: 100
 
     QtObject {
         id: activeSongMeta

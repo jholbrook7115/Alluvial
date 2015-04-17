@@ -11,7 +11,7 @@ class QtLibSpotify:public QObject
 public:
     bool FLAG_SPOTIFY_READY;
 
-    QtLibSpotify();
+    QtLibSpotify(QString username, QString password);
     ~QtLibSpotify();
     int initSpotify(QString username, QString password);
     sp_search *searchSpotify(sp_session* session, QString searchQuery);

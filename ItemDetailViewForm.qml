@@ -9,8 +9,6 @@ Item {
     property string hexcolor: "#000000"
 
     Rectangle {
-        x:0
-        y:0
         anchors.fill: parent
         color: hexcolor
         gradient: Gradient{

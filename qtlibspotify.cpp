@@ -19,18 +19,23 @@
 #define USER_AGENT "AlluvialMusicPlayer1"
 
 #include "qtlibspotify.h"
-//#include "../appkey.c"
 #include <QDebug>
 #include <thread>
 #include <chrono>
+#include <sys/time.h>
+#include <string.h>
 
 #include "../appkey.h"
 
-static int notify_events;
+sp_session *g_session;
+
+//Concurrency variables
+static int notify_events;       //Synchronization variable to tell main thread ot process spotify events
 static pthread_mutex_t notify_mutex;
 static pthread_cond_t notify_cond;
+
 bool FLAG_SPOTIFY_STATUS;
-sp_session *session;
+
 sp_search *res;
 
 static void  connection_error(sp_session *session, sp_error error){
@@ -59,6 +64,7 @@ static void log_message(sp_session *session, const char *data){
 }
 
 static void notify_main_thread(sp_session *session){
+    qDebug() << "notify_main_thread callback received";
     pthread_mutex_lock(&notify_mutex);
     notify_events = 1;
     pthread_cond_signal(&notify_cond);
@@ -77,13 +83,11 @@ static sp_session_callbacks callbacks = {
     &log_message
 };
 
-static const char* convertToString(QString strInput){
+ const char* convertToString(QString strInput){
     QByteArray byteForm = strInput.toLatin1();
-
-    const char* charPtrForm = byteForm.data();
-    qDebug() << "Converted [" << strInput <<"] to [" << charPtrForm <<
-                "]";
-    return charPtrForm;
+    return byteForm.data();
+    //qDebug() << "Converted [" << strInput <<"] to [" << charPtrForm << "]";
+    //return &charPtrForm;
 }
 
 static void search_complete(sp_search* search, void* userdata){
@@ -109,9 +113,9 @@ static getDevice_ID(){
 */
 
 sp_connectionstate QtLibSpotify::GetConnectionState(){
-    if(session)
+    if(g_session)
     {
-        sp_connectionstate connectState = sp_session_connectionstate(session);
+        sp_connectionstate connectState = sp_session_connectionstate(g_session);
         return connectState;
     }
     else
@@ -120,11 +124,50 @@ sp_connectionstate QtLibSpotify::GetConnectionState(){
     }
 }
 
-QtLibSpotify::QtLibSpotify()
+QtLibSpotify::QtLibSpotify(QString username, QString password)
 {
-    //emit spotifyLogin(username, password);
+    int next_timeout = 0;
 
+    pthread_mutex_init(&notify_mutex, NULL);
+    pthread_cond_init(&notify_cond, NULL);
 
+    if(initSpotify(username, password) != 0){
+        qDebug() << "Spotify failed to initialized";
+        exit(-1);
+    }
+    pthread_mutex_lock(&notify_mutex);
+    for(;;){
+        if(next_timeout ==0){
+               while(!notify_events){
+                   pthread_cond_wait(&notify_cond, &notify_mutex);
+               }
+        } else {
+            struct timespec ts;
+#if _POSIX_TIMERS >0
+            clock_gettime(CLOCK_REALTIME, &ts);
+#else
+            struct timeval tv;
+            gettimeofday(&tv, NULL);
+            TIMEVAL_TO_TIMESPEC(&tv,&ts);
+#endif
+            ts.tv_sec += next_timeout/1000;
+            ts.tv_nsec += (next_timeout%1000) * 1000000;
+
+            while(!notify_events){
+                if(pthread_cond_timedwait(&notify_cond,&notify_mutex,&ts)){
+                    break;
+                }
+            }
+        }
+        //process lib spotify events apparently...
+        notify_events = 0;
+        pthread_mutex_unlock(&notify_mutex);
+
+        do{
+            sp_session_process_events(g_session, &next_timeout);
+        }while(next_timeout==0);
+        pthread_mutex_lock(&notify_mutex);
+    }
 }
 
 QtLibSpotify::~QtLibSpotify()
@@ -136,10 +179,13 @@ int QtLibSpotify::initSpotify(QString username, QString password){
 
     sp_session_config config;
     memset(&config, 0, sizeof(config));
+    sp_session *session;
     sp_error error;
     sp_error login_error;
-    //sp_session *session;
-    sp_search *res;
+
+
+    const char* strUsername;
+    const char* strPassword;
 
     qDebug() << "AppKey:" << g_appkey;
 
@@ -147,40 +193,50 @@ int QtLibSpotify::initSpotify(QString username, QString password){
 
     config.cache_location= "tmp";
     config.settings_location="tmp";
-    //config.proxy="193.235.32.164";
     config.application_key = g_appkey;
     qDebug() << g_appkey;
     config.application_key_size = sizeof(g_appkey);
     qDebug() << sizeof(g_appkey);
-
     config.user_agent = USER_AGENT;
     config.callbacks = &callbacks;
-
     //FUCK PROXIES
     config.proxy = 0x0;
     config.proxy_password=0x0;
     config.proxy_username=0x0;
    // config.device_id= getDevice_ID();
 
-
-    qDebug()<< "initSpotify: Session_create result: " << (error = sp_session_create(&config, &session));
+    error = sp_session_create(&config, &session);
     if(SP_ERROR_OK != error) {
-        qDebug() << "Spotify: failed to create session" << sp_error_message(error);
+        qDebug() << "failed to create session: " << sp_error_message(error);
         return 2;
-    } else {
-        login_error = spotifyLogin(username, password);
-        if(SP_ERROR_OK != login_error){
-            qDebug() << "Spotify: Login Error - " << sp_error_message(login_error);
-        } else {
-            qDebug() <<"Spotify: Login Message - " << sp_error_message(login_error);
-            //res = searchSpotify(session, "Bruno Mars");
-            //qDebug() << "number of search results " << sp_search_total_tracks(res);
-
-        }
-
-
+    } else if(SP_ERROR_OK == error) {
+        qDebug() << "session created";
     }
 
+    /*NEVER TOUCH THIS CODE OR A LARGE PERSON WILL COME TO YOUR
+     * HOUSE AND BREAK YOUR COMPUTER IN THE SAME WAY YOU BROKE THIS CODE
+     * */
+    strUsername = username.toUtf8().constData();
+    std::string thing1 = username.toStdString();
+    std::string thing2 = password.toStdString();
+
+    strUsername = thing1.c_str();
+    qDebug() << "strUsername: " << strUsername;
+    qDebug() << "strPassword: " << strPassword;
+
+    strPassword = thing2.c_str();
+    qDebug() << "strUsername: " << strUsername;
+    qDebug() << "strPassword: " << strPassword;
+
+    login_error = sp_session_login(session, strUsername, strPassword, 0, NULL);
+    if(SP_ERROR_OK != login_error){
+        qDebug() << "failed to login" << sp_error_message(login_error);
+        return 3;
+    } else if(SP_ERROR_OK == login_error){
+        qDebug() << "Login Successful";
+    }
+    g_session = session;
+    return 0;
 }
 
 sp_search *QtLibSpotify::searchSpotify(sp_session *session, QString searchQuery){
@@ -202,7 +258,7 @@ void QtLibSpotify::playSongSpotify(sp_session *session, sp_track* track){
 }
 
 bool QtLibSpotify::isLoggedIn(){
-    bool isloggedin = (NULL != session) && (GetConnectionState());
+    bool isloggedin = (NULL != g_session) && (GetConnectionState());
 }
 
 
@@ -216,7 +272,7 @@ sp_error QtLibSpotify::spotifyLogin(QString username, QString password){
     const char* strUsername = convertToString(username);
     const char* strPassword = convertToString(password);
     //qDebug() << "Spotify: try relogin - " << sp_session_relogin(user_session);
-    spotifyLoginError = sp_session_login(session, strUsername, strPassword, 1, NULL);
+    spotifyLoginError = sp_session_login(g_session, strUsername, strPassword, 1, NULL);
     qDebug() <<"Spotify: try login - " << sp_error_message(spotifyLoginError);
     return spotifyLoginError;
 }
@@ -227,7 +283,7 @@ sp_error QtLibSpotify::spotifyLogout(sp_session *user_session){
 }
 
 void QtLibSpotify::search(QString searchString){
-    res = searchSpotify(session, searchString);
+    res = searchSpotify(g_session, searchString);
     qDebug() << "Spotify search: Number of search results - " << sp_search_total_tracks(res);
     //return res;
 
@@ -240,6 +296,6 @@ sp_error QtLibSpotify::releaseSpotifySession(sp_session *user_session){
 }
 
 sp_error QtLibSpotify::closing(){
-    emit releaseSpotifySession(session);
+    emit releaseSpotifySession(g_session);
 }
 

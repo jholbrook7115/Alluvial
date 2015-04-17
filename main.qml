@@ -40,7 +40,7 @@ ApplicationWindow {
             }
         }
     }
-
+/*
     LoginScreen{
         id:login_screen
         anchors.fill: parent
@@ -63,7 +63,7 @@ ApplicationWindow {
             }
         ]
     }
-
+*/
     Item {
         id: mainWindow
 
@@ -111,16 +111,16 @@ ApplicationWindow {
 
         SearchResults{
             id:searchResultsPane
-            anchors.left: parent.left
-            anchors.right: playListPanel.left
+            anchors.left: playListPanel.right
+            anchors.right: parent.right
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
         }
 
         ItemDetailViewForm {
             id: itemDetailViewForm
-            anchors.left: parent.left
-            anchors.right: playListPanel.left
+            anchors.left: playListPanel.right
+            anchors.right: parent.left
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
         }
@@ -138,8 +138,8 @@ ApplicationWindow {
             id:searchBarTextField
             height: 35
             anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: playListPanel.left
+            anchors.left: playListPanel.right
+            anchors.right:  parent.right
         }
     }
 }

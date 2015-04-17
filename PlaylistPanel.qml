@@ -4,26 +4,40 @@ import QtQuick.Layouts 1.1
 
 ColumnLayout {
     id: playlistPanel
-    x: parent.width * 0.8
-    y: 0
-    width: parent.width * 0.2
-    height: parent.height
+
+    width: 100
+    anchors.top: parent.top
+    anchors.bottom: playBackBar.top
+    anchors.left: parent.left
     Layout.fillWidth: true
     Layout.minimumWidth: 100
     Layout.fillHeight: true
-    Layout.minimumHeight: parent.height
 
     states: [
         State {
             name: "hidePlaylist"
             PropertyChanges {
                 target: playListPanel
-                
+                width:0
+            }
+        },
+        State {
+            name: "showPlaylist"
+            PropertyChanges {
+                target: playListPanel
+                width: 150
             }
         }
     ]
 
+    Button{
+        y: (parent.height/2)
+        anchors.left: parent.right
 
+        onClicked: {
+            playListPanel.state="hidePlaylist"
+        }
+    }
 
     Rectangle {
         width: parent.width
