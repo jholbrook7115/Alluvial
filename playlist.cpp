@@ -3,20 +3,21 @@
 #include <vector>
 #include <QDebug>
 
+/*!
+ * \brief playlist::playlist A playlist item to be used as a wrapper for all of the song metadata.
+ * Song metadata will be saved in a playlist_item that will be kept in a list.
+ * Each playlist will have its own title that will be used for display purposes.
+ */
 playlist::playlist()
 {
-    this->name = "Untitled Playlist";
+    this->title = "Untitled Playlist";
     this->songs = std::vector<playlist_item>();
-    this->shuffle = false;
-    this->repeat = false;
 }
 
 playlist::playlist(QString title)
 {
-    this->name = title;
+    this->title = title;
     this->songs = std::vector<playlist_item>();
-    this->shuffle = false;
-    this->repeat = false;
 }
 
 playlist::~playlist()
@@ -84,8 +85,18 @@ QString playlist::getSongHash(int songIndex)
  */
 QString playlist::getPlaylistTitle()
 {
-    return this->name;
+    return this->title;
 }
+
+/*!
+ * \brief playlist::name An alias of getPlaylistTitle
+ * \return QString containing playlist title
+ */
+QString playlist::name()
+{
+    return this->title;
+}
+
 
 /*!
  * \brief playlist::getSongs Get the vector containing all songs
@@ -96,6 +107,14 @@ std::vector<playlist_item> playlist::getSongs()
     return this->songs;
 }
 
+/*!
+ * \brief playlist::getSongs Get the playlist item of a specified song
+ * \return Playlist item of the chosen song
+ */
+playlist_item playlist::getSong(int index)
+{
+    return this->songs[index];
+}
 
 
 

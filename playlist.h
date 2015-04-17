@@ -20,15 +20,15 @@ public:
     QString getActiveSongHash();
     QString getSongHash(int);
     QString getPlaylistTitle();
+    QString name();
     std::vector<playlist_item> getSongs();
+    playlist_item getSong(int);
 
 public slots:
 
 private:
-    QString name;
+    QString title;
     std::vector<playlist_item> songs{}; /**< The array of the songs that belong to this playlist */
-    bool shuffle; ///< The shuffle toggle
-    bool repeat; ///< The repeat toggle
 };
 
 #endif // PLAYLIST_H

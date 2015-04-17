@@ -1,5 +1,13 @@
 #include "playlist_item.h"
 
+/*!
+ * \brief playlist_item::playlist_item The container for all of the song metadata.
+ * This will contain all of the necessary display info for listing in the playlist bar,
+ * as well as the hash of the song for look up purposes.
+ *
+ * This does not include metadata not used in the playlist bar as that will be returned
+ * by the query of the database with the hash.
+ */
 playlist_item::playlist_item()
 {
     this->hash = "";
@@ -21,6 +29,7 @@ playlist_item::~playlist_item()
 
 /*!
  * \brief playlist_item::getHash Get the hash of the song for the database
+ * \return The hash of the song as a QString
  */
 QString playlist_item::getHash()
 {
@@ -29,6 +38,7 @@ QString playlist_item::getHash()
 
 /*!
  * \brief playlist_item::getSongName Get the name of the song
+ * \return The name of the song as a QString
  */
 QString playlist_item::getSongName()
 {
@@ -37,6 +47,7 @@ QString playlist_item::getSongName()
 
 /*!
  * \brief playlist_item::getSongLength Get the length of the song in seconds
+ * \return The length of the song in seconds
  */
 int playlist_item::getSongLength()
 {

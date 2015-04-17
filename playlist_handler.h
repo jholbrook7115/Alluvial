@@ -3,6 +3,8 @@
 #include <vector>
 #include <playlist.h>
 #include <QObject>
+#include <QStringList>
+#include <QQmlApplicationEngine>
 
 class playlist_handler:public QObject
 {
@@ -15,11 +17,14 @@ public:
     void addPlaylist();
     void addPlaylist(playlist);
     void addPlaylist(QString);
+    void addSong(int, playlist_item);
     void dropPlaylists();
     void dropPlaylist(playlist);
     void dropPlaylist(QString);
+    void dropSong(int, playlist_item);
 
     std::vector<playlist> getPlaylists();
+    playlist getPlaylist(int);
     std::vector<QString> getPlaylistNames();
     std::vector<QString> getPlaylistSongNames(int);
     playlist getActivePlaylist();
@@ -40,9 +45,13 @@ public slots:
     void repeatSwitch();
     void shuffleSwitch();
     void changePlaylist(int);
+    void changeTrackListings(int);
     void changePlaylist(QString);
     void previousSong();
     void nextSong();
+
+signals:
+    void setTrackListings(QStringList list);
 
 private:
     std::vector<playlist> playlists; /**< Vector of all playlist structures */

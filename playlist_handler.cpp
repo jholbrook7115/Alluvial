@@ -1,8 +1,20 @@
 #include "playlist_handler.h"
 #include "playlist.h"
+#include "dataobject.h"
 #include <vector>
 #include <QDebug>
+#include <QQmlApplicationEngine>
+#include <QAbstractListModel>
+#include <QQmlContext>
+#include <QQuickView>
 
+/*!
+ * \brief playlist_handler::playlist_handler The wrapper for all playlists to be saved.
+ * The playlist wrapper will save indices for which playlist being used and
+ * an index for which song is being played in the currently active playlist.
+ *
+ * Two boolean indicators will be used to save playback options.
+ */
 playlist_handler::playlist_handler()
 {
     this->playlists = std::vector<playlist>();
@@ -23,7 +35,7 @@ playlist_handler::~playlist_handler()
 void playlist_handler::addPlaylist()
 {
     playlist *newPlaylist = new playlist();
-    this->playlists.insert(this->playlists.begin(), *newPlaylist);
+    this->playlists.insert(this->playlists.end(), *newPlaylist);
 }
 
 /*!
@@ -32,7 +44,7 @@ void playlist_handler::addPlaylist()
  */
 void playlist_handler::addPlaylist(playlist newPlaylist)
 {
-    this->playlists.insert(this->playlists.begin(), newPlaylist);
+    this->playlists.insert(this->playlists.end(), newPlaylist);
 }
 
 /*!
@@ -42,7 +54,12 @@ void playlist_handler::addPlaylist(playlist newPlaylist)
 void playlist_handler::addPlaylist(QString playlistTitle)
 {
     playlist *newPlaylist = new playlist(playlistTitle);
-    this->playlists.insert(this->playlists.begin(), *newPlaylist);
+    this->playlists.insert(this->playlists.end(), *newPlaylist);
+}
+
+void playlist_handler::addSong(int playlistIndex, playlist_item songToAdd)
+{
+    this->playlists.at(playlistIndex).addSong(songToAdd);
 }
 
 /*!
@@ -83,6 +100,11 @@ void playlist_handler::dropPlaylist(QString playlistTitleToDrop)
             break;
         }
     }
+}
+
+void playlist_handler::dropSong(int playlistIndex, playlist_item songToDrop)
+{
+    this->playlists.at(playlistIndex).removeSong(songToDrop);
 }
 
 /*!
@@ -146,6 +168,16 @@ std::vector<playlist> playlist_handler::getPlaylists()
 {
     return this->playlists;
 }
+
+/*!
+ * \brief playlist_handler::getPlaylist Get the playlist from the specified index
+ * \return A playlist item
+ */
+playlist playlist_handler::getPlaylist(int index)
+{
+    return this->playlists[index];
+}
+
 
 /*!
  * \brief playlist_handler::getPlaylistNames Get a list containing all playlist names
@@ -308,8 +340,49 @@ void playlist_handler::changePlaylist(QString playlistTitle)
     {
         if ( this->playlists[index].getPlaylistTitle() == playlistTitle)
         {
-            this->activePlaylist = index;
+            this->changePlaylist(index);
             break;
         }
     }
 }
+
+void playlist_handler::changeTrackListings(int index)
+{
+    this->changePlaylist(index);
+    QStringList dataList;
+
+    for ( int i = 0; i < this->getActivePlaylist().getSongs().size() ; i++ )
+    {
+        qDebug() << "Song" << i << ":" << this->getActivePlaylist().getSongs().at(i).getSongName();
+        dataList.append(this->getActivePlaylist().getSongs().at(i).getSongName());
+        qDebug() << "DataList" << i << ":" << QVariant(dataList);
+    }
+
+    //qDebug() << "calling setTrackListings:" << QVariant::fromValue(dataList);
+
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    QObject *root = engine.rootObjects().first();
+    QObject *trackListings = root->findChild<QObject*>("trackListings");
+
+    if (trackListings)
+    {
+        qDebug() << "BEFORE:" << trackListings->property("model");
+        trackListings->setProperty("model", QVariant(dataList));
+        qDebug() << "AFTER:" << trackListings->property("model");
+        QObject *trackListings = root->findChild<QObject*>("trackListings");
+        qDebug() << "GETTING:" << trackListings->property("model");
+    }
+    else
+    {
+        qDebug() << "trackListings has not yet been set";
+    }
+
+    //qDebug() << "cppModel: " << engine.rootContext()->contextProperty("cppModel");
+    //engine.rootContext()->setContextProperty( "cppModel", QVariant::fromValue(dataList) );
+    //QObject *trackListings = root->findChild<QObject*>("trackListings");
+    //QMetaObject::invokeMethod(trackListings, "setTrackListings",
+    //    Q_ARG(QVariant, QVariant::fromValue(dataList)));
+
+}
+
