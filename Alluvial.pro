@@ -6,7 +6,8 @@ SOURCES += main.cpp \
     mediaplayer.cpp \
     playlist_item.cpp \
     playlist.cpp \
-    playlist_handler.cpp
+    playlist_handler.cpp \
+    dataobject.cpp
 
 RESOURCES += qml.qrc
 
@@ -21,7 +22,8 @@ HEADERS += \
     mediaplayer.h \
     playlist_item.h \
     playlist.h \
-    playlist_handler.h
+    playlist_handler.h \
+    dataobject.h
 DISTFILES += \
     qmldir.txt \
     Doxyfile

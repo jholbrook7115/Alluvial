@@ -5,12 +5,13 @@
 #include <QQuickView>
 #include <QDebug>
 #include <QUrl>
-#include "settings_storage.h"
-#include "mediaplayer.h"
 #include <QtQml>
 #include <QMediaPlayer>
+#include "settings_storage.h"
+#include "mediaplayer.h"
 #include "playlist.h"
 #include "playlist_handler.h"
+#include "dataobject.h"
 
 int main(int argc, char *argv[])
 {
@@ -39,6 +40,10 @@ int main(int argc, char *argv[])
     QObject *rightSkip = root->findChild<QObject*>("rightSkipButton");
     QObject *shufButton = root->findChild<QObject*>("shuffleButton");
     QObject *repButton = root->findChild<QObject*>("repeatButton");
+
+    QObject *playlistDropDown = root->findChild<QObject*>("dropdownPlaylistOptions");
+    QObject *trackListings = root->findChild<QObject*>("trackListings");
+    QObject *trackModel = root->findChild<QObject*>("trackModel");
 
     // Pause or play the song
     QObject::connect(playButton, SIGNAL(playClicked()),
@@ -75,6 +80,54 @@ int main(int argc, char *argv[])
 
     QObject::connect(rightSkip, SIGNAL(clicked()),
         ph, SLOT(nextSong()));
+
+    QObject::connect(playlistDropDown, SIGNAL(activePlaylistChanged(int)),
+        ph, SLOT(changeTrackListings(int)));
+
+    playlist_item *newSong = new playlist_item("#0", "song 1", 5);
+
+    ph->addPlaylist("Playlist 1");
+    ph->addSong(0, *newSong);
+    ph->addSong(0, *newSong);
+    ph->addSong(0, *newSong);
+    ph->addPlaylist("Playlist 2");
+    ph->addSong(1, *newSong);
+    ph->addSong(1, *newSong);
+    ph->addPlaylist("Playlist 3");
+    ph->addSong(2, *newSong);
+    ph->addSong(2, *newSong);
+    ph->addSong(2, *newSong);
+    ph->addSong(2, *newSong);
+
+    QStringList playlists;
+    for ( int index = 0; index < ph->getPlaylists().size(); index++ )
+    {
+        playlists.append(ph->getPlaylist(index).getPlaylistTitle());
+    }
+
+    QStringList songs;
+    for ( int index = 0; index < ph->getPlaylistSongNames(ph->getActivePlaylistIndex()).size(); index++ )
+    {
+        songs.append(ph->getPlaylistSongNames(ph->getActivePlaylistIndex()).at(index));
+    }
+
+    std::vector<playlist_item> songNameVector = ph->getActivePlaylist().getSongs();
+    QStringList songNameList;
+    for ( int i = 0 ; i < songNameVector.size() ; i++ )
+    {
+        songNameList.append(songNameVector.at(i).getSongName());
+    }
+    qDebug() << QVariant::fromValue(songNameList);
+
+    std::vector<QString> data = ph->getPlaylistSongNames(0);
+    QList<QObject*> dataList;
+    for ( int i = 0 ; i < data.size() ; i++ )
+    {
+        dataList.append(new DataObject(data.at(i)));
+    }
+    engine.rootContext()->setContextProperty("cppModel", QVariant::fromValue(dataList));
+    engine.rootContext()->setContextProperty("playlistModel", QVariant::fromValue(playlists));
+
 
     return app.exec();
 }
