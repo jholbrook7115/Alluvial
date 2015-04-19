@@ -22,6 +22,11 @@ ColumnLayout {
                 target: playListPanel
                 width:0
             }
+            PropertyChanges {
+                target: showPlaylistButton
+                text: '>'
+                anchors.left: parent.right
+            }
         },
         State {
             name: "showPlaylist"
@@ -29,12 +34,20 @@ ColumnLayout {
                 target: playListPanel
                 width: 150
             }
+            PropertyChanges {
+                target: showPlaylistButton
+                text: '<'
+                anchors.right: parent.right
+            }
         }
     ]
 
     Button{
-        y: playListPanel.height/2
+        id: showPlaylistButton
         anchors.left: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        text: '<'
 
         onClicked: {
             if(playListPanel.state=="showPlaylist"){
@@ -47,24 +60,21 @@ ColumnLayout {
     }
 
     Rectangle {
-        width: parent.width
-        height: parent.height
-        x: 0
-        y: 0
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
         color: '#E0E0E0'
-        Layout.fillWidth: true
-        Layout.minimumWidth: 100
-        Layout.fillHeight: true
-        Layout.minimumHeight: parent.height
 
         ComboBox {
             objectName: "dropdownPlaylistOptions"
             id: dropdownPlaylistOptions
-            width: parent.width
-            x:0
-            y:0
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
 
-            //model: playlistModel
+            model: playlistModel
 
             signal activePlaylistChanged(int currentIndex);
 
