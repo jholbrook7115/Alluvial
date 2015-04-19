@@ -33,15 +33,18 @@ ColumnLayout {
     ]
 
     Button{
-        y: playListPanel.height/2
+        y: parent.height/2
         anchors.left: parent.right
 
         onClicked: {
             if(playListPanel.state=="showPlaylist"){
                 playListPanel.state="hidePlaylist"
             }
-            else {
+            else if(playListPanel.state=="hidePlaylist"){
                 playListPanel.state="showPlaylist"
+            }
+            else {
+                playListPanel.state="hidePlaylist"
             }
         }
     }
@@ -49,8 +52,7 @@ ColumnLayout {
     Rectangle {
         width: parent.width
         height: parent.height
-        x: 0
-        y: 0
+
         color: '#E0E0E0'
         Layout.fillWidth: true
         Layout.minimumWidth: 100
@@ -64,7 +66,7 @@ ColumnLayout {
             x:0
             y:0
 
-            //model: playlistModel
+            model: playlistModel
 
             signal activePlaylistChanged(int currentIndex);
 
