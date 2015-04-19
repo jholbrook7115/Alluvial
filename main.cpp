@@ -12,10 +12,12 @@
 #include "mediaplayer.h"
 #include "playlist.h"
 #include "playlist_handler.h"
+#include "communicationhandler.h"
 #include "dataobject.h"
 #include <QtCore>
 #include <thread>
 #include <chrono>
+#include "pthread.h"
 
 #include <qtlibspotify.h>
 
@@ -66,6 +68,7 @@ int main(int argc, char *argv[])
     spotifyCreds.password = password.toString();
     mediaPlayer *mp = new mediaPlayer();
     playlist_handler *ph = new playlist_handler();
+    CommunicationHandler *commhandler = new CommunicationHandler("127.0.0.1");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     engine.rootContext()->setContextProperty("clientSettings", settings);
@@ -79,6 +82,7 @@ int main(int argc, char *argv[])
     QObject *rightSkip = root->findChild<QObject*>("rightSkipButton");
     QObject *shufButton = root->findChild<QObject*>("shuffleButton");
     QObject *repButton = root->findChild<QObject*>("repeatButton");
+    QObject *searchQueryText = root->findChild<QObject*>("searchQueryText");
     // Initializing the spotify stuff.  This particular is used for testing and SHOULD be changed later on.
     //spotifyThread_id = pthread_create(spotifyThread, NULL, initSpotifyFromMain, (void*)&spotifyCreds);
 
@@ -139,6 +143,9 @@ int main(int argc, char *argv[])
     QObject::connect(playlistDropDown, SIGNAL(activePlaylistChanged(int)),
         ph, SLOT(changeTrackListings(int)));
 
+    QObject::connect(searchQueryText, SIGNAL(searchQuery(QString)),
+                     commhandler, SLOT(searchRequest(QString)));
+
    playlist_item *newSong = new playlist_item("#0", "song 1", 5);
 
     ph->addPlaylist("Playlist 1");
@@ -185,11 +192,12 @@ int main(int argc, char *argv[])
 
 
 
-
+    /*
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
     window->show();
+    */
 	int appInt = app.exec();
 
     return appInt;
