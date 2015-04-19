@@ -7,6 +7,16 @@
 #include <QQmlComponent>
 #include <QQmlApplicationEngine>
 
+/*!
+ * \brief mediaPlayer::mediaPlayer mediaPlayer will handle all of the music playback.
+ * This will control volume, song playback, and song positioning.
+ *
+ * Linked directly to UI button clicks through the use of Public Slots.
+ * Will also change properties of certain UI elements based off of the current song playing.
+ *
+ * When given a new ByteStream, the mediaPlayer will start it as a new song
+ * but keep all settings that were actively being used.
+ */
 mediaPlayer::mediaPlayer()
 {
     player = new QMediaPlayer();
@@ -43,7 +53,7 @@ void mediaPlayer::play ()
  */
 void mediaPlayer::play (QByteArray data)
 {
-    QFile tmp_file("/Music/Genix - Run.mp3");
+    QFile tmp_file("tmp.mp3");
     QDir path = QDir::currentPath();
 
     if(!tmp_file.open(QIODevice::WriteOnly)) {
@@ -59,7 +69,7 @@ void mediaPlayer::play (QByteArray data)
     }
     tmp_file.close();
 
-    QMediaContent song = QMediaContent(QUrl::fromLocalFile(path.absolutePath() + "/Music/Genix - Run.mp3"));
+    QMediaContent song = QMediaContent(QUrl::fromLocalFile(path.absolutePath() + "/tmp.mp3"));
     player->setMedia(song);
     player->setVolume(50);
     player->play();
