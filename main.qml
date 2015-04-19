@@ -131,7 +131,7 @@ ApplicationWindow {
 
         ItemDetailViewForm {
             id: itemDetailViewForm
-            anchors.left: playListPanel.left
+            anchors.left: playListPanel.right
             anchors.right: parent.right
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
