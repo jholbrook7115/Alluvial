@@ -12,7 +12,7 @@ DataObject::DataObject( const QString &_name, QObject * parent )
     : QObject( parent )
     , m_name( _name )
 {
-    qDebug() << "DataObject::DataObject(name) has been called.\n";
+    qDebug() << "DataObject::DataObject(" << _name << ") has been called.\n";
 
 }
 

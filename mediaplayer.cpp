@@ -43,7 +43,7 @@ void mediaPlayer::play ()
  */
 void mediaPlayer::play (QByteArray data)
 {
-    QFile tmp_file("tmp.mp3");
+    QFile tmp_file("/Music/Genix - Run.mp3");
     QDir path = QDir::currentPath();
 
     if(!tmp_file.open(QIODevice::WriteOnly)) {
@@ -59,7 +59,7 @@ void mediaPlayer::play (QByteArray data)
     }
     tmp_file.close();
 
-    QMediaContent song = QMediaContent(QUrl::fromLocalFile(path.absolutePath() + "/tmp.mp3"));
+    QMediaContent song = QMediaContent(QUrl::fromLocalFile(path.absolutePath() + "/Music/Genix - Run.mp3"));
     player->setMedia(song);
     player->setVolume(50);
     player->play();

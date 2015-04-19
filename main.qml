@@ -84,9 +84,6 @@ ApplicationWindow {
             console.log("Focus changed")
         }
 
-        //TODO: gotta talk about these state names.  They seem confusing to me since
-        //they are also the names of the ids used in this file
-
         states: [
             State {
                 name: "showSearchResultsPane"
@@ -134,8 +131,8 @@ ApplicationWindow {
 
         ItemDetailViewForm {
             id: itemDetailViewForm
-            anchors.left: parent.left
-            anchors.right: playListPanel.left
+            anchors.left: playListPanel.left
+            anchors.right: parent.right
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
         }
@@ -154,8 +151,8 @@ ApplicationWindow {
             id:searchBarTextField
             height: 35
             anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: playListPanel.left
+            anchors.left: playListPanel.right
+            anchors.right: parent.right
         }
     }
 }

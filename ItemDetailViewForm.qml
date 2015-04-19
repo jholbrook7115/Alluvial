@@ -11,7 +11,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: hexcolor
+        color: "#FFFFFF"
     }
 
     QtObject {

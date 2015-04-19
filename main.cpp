@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     QObject *shufButton = root->findChild<QObject*>("shuffleButton");
     QObject *repButton = root->findChild<QObject*>("repeatButton");
     // Initializing the spotify stuff.  This particular is used for testing and SHOULD be changed later on.
-    spotifyThread_id = pthread_create(spotifyThread, NULL, initSpotifyFromMain, (void*)&spotifyCreds);
+    //spotifyThread_id = pthread_create(spotifyThread, NULL, initSpotifyFromMain, (void*)&spotifyCreds);
 
     /*
      * IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -88,10 +88,8 @@ int main(int argc, char *argv[])
      * ("../Alluvial/main.qml")
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      * IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    QQuickView *view = new QQuickView;
-    QScopedPointer<QApplication> application(new QApplication(argc, argv));
-    //QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
-    Settings* settings = new Settings(application.data());
+     * */
+   //Settings* settings = new Settings(application.data());
     QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial");
     QObject *playlistDropDown = root->findChild<QObject*>("dropdownPlaylistOptions");
     QObject *trackListings = root->findChild<QObject*>("trackListings");
@@ -100,10 +98,11 @@ int main(int argc, char *argv[])
     // Pause or play the song
     QObject::connect(playButton, SIGNAL(playClicked()),
         mp, SLOT(playOrPause()));
-
+/*
     view->rootContext()->setContextProperty("settings", settings);
     view->setSource();
     view->showNormal();
+    */
 
 // Adjust the volume according to the position of the volume slider
     QObject::connect(volSlider, SIGNAL(changeVol(int)),
@@ -192,6 +191,6 @@ int main(int argc, char *argv[])
 
     window->show();
 	int appInt = app.exec();
-*/
+
     return appInt;
 }
