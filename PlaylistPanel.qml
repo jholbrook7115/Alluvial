@@ -45,8 +45,7 @@ ColumnLayout {
     Button{
         id: showPlaylistButton
         anchors.left: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        width:10
         text: '<'
 
         onClicked: {

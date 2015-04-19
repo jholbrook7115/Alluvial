@@ -14,7 +14,7 @@ Rectangle {
 
     TextField{
         id: searchBarTextField
-
+        objectName: "searchQueryText"
         anchors.fill:parent
         onEditingFinished: {
             //TODO: send the text in the field to somewhere which will actually do something with it
