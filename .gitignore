@@ -27,6 +27,9 @@
 *.out
 *.app
 
+# Silly git files
+*.orig
+
 # Qt-specific files
 Alluvial.pro.user*
 
@@ -34,3 +37,7 @@ Alluvial.pro.user*
 
 appkey.h
 appkey.c
+doc*
+Doxyfile
+music*
+

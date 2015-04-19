@@ -1,12 +1,17 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets multimedia
 
 SOURCES += main.cpp \
     jsonformatter.cpp \
     settings_storage.cpp \
     qtlibspotify.cpp \
-    qtspotifythread.cpp
+    qtspotifythread.cpp \
+    mediaplayer.cpp \
+    playlist_item.cpp \
+    playlist.cpp \
+    playlist_handler.cpp \
+    dataobject.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,8 +28,15 @@ HEADERS += \
     jsonformatter.h \
     qtlibspotify.h \
     ../appkey.h \
-    qtspotifythread.h
+    qtspotifythread.h \
+    mediaplayer.h \
+    playlist_item.h \
+    playlist.h \
+    playlist_handler.h \
+    dataobject.h
 DISTFILES += \
+    qmldir.txt \
+    Doxyfile
     qmldir.txt
 
 #unix:!macx: LIBS += -lspotify

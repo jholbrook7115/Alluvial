@@ -4,7 +4,6 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 
-
 ApplicationWindow {
     id:superRootWindow
     title: qsTr("Alluvial")
@@ -75,6 +74,19 @@ ApplicationWindow {
 
         state: "itemDetailView"
 
+        signal changedFocus
+
+        onStateChanged: {
+            changedFocus
+        }
+
+        onChangedFocus: {
+            console.log("Focus changed")
+        }
+
+        //TODO: gotta talk about these state names.  They seem confusing to me since
+        //they are also the names of the ids used in this file
+
         states: [
             State {
                 name: "showSearchResultsPane"
@@ -103,6 +115,7 @@ ApplicationWindow {
                     target: itemDetailViewForm
                     opacity: 1
                     z: 1
+                    state: 'updateSong'
                 }
             }
 
@@ -111,16 +124,18 @@ ApplicationWindow {
 
         SearchResults{
             id:searchResultsPane
-            anchors.left: playListPanel.right
-            anchors.right: parent.right
+            color: "#000000"
+
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
         }
 
         ItemDetailViewForm {
             id: itemDetailViewForm
-            anchors.left: playListPanel.right
-            anchors.right: parent.left
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
             anchors.top: searchBarTextField.bottom
             anchors.bottom: playBackBar.top
         }
@@ -129,6 +144,7 @@ ApplicationWindow {
             id: playBackBar
             z: 2
         }
+
         PlaylistPanel{
             id: playListPanel
             z: 2
@@ -138,8 +154,8 @@ ApplicationWindow {
             id:searchBarTextField
             height: 35
             anchors.top: parent.top
-            anchors.left: playListPanel.right
-            anchors.right:  parent.right
+            anchors.left: parent.left
+            anchors.right: playListPanel.left
         }
     }
 }

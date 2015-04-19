@@ -1,8 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtMultimedia 5.0
 
 ColumnLayout {
+
     id: playlistPanel
 
     width: 100
@@ -51,40 +53,24 @@ ColumnLayout {
         Layout.minimumHeight: parent.height
 
         ComboBox {
+            objectName: "dropdownPlaylistOptions"
             id: dropdownPlaylistOptions
             width: parent.width
             x:0
             y:0
 
+            model: playlistModel
+
+            signal activePlaylistChanged(int currentIndex);
+
             onCurrentIndexChanged: {
-                console.log ("Playlist changed: " + playlistOptions.get(currentIndex).name)
+                dropdownPlaylistOptions.activePlaylistChanged(dropdownPlaylistOptions.currentIndex);
+                console.log("Calling changeTrackListings " + currentIndex);
             }
-
-            ListModel {
-                id: playlistOptions
-
-                ListElement {
-                    name: "Playlist 1"
-                }
-
-                ListElement {
-                    name: "Playlist 2"
-                }
-
-                ListElement {
-                    name: "Playlist 3"
-                }
-
-                ListElement {
-                    name: "Playlist 4"
-                }
-            }
-
-            model: playlistOptions
-
         }
 
         Rectangle {
+            id: playlistTrackListing
             x: 10
             y: dropdownPlaylistOptions.height + 5
             width: parent.width
@@ -96,26 +82,11 @@ ColumnLayout {
             Layout.fillHeight: true
             Layout.minimumHeight: playListPanel.height
 
-            ListModel {
-                id: trackListing
-
-                ListElement {
-                    name: "Song 1"
-                }
-                ListElement {
-                    name: "Song 2"
-                }
-                ListElement {
-                    name: "Song 3"
-                }
-                ListElement {
-                    name: "Song 4"
-                }
-            }
-
             Component {
                 id: track
-                Item {
+                Rectangle {
+                    color: "red"
+                    id: trackItem
                     height: 20
                     width: parent.width
                     MouseArea {
@@ -126,17 +97,67 @@ ColumnLayout {
                         }
                     }
 
-                    Text {
-                        text: '• ' + name
-                    }
                 }
             }
 
+            ListModel {
+                    id: qmlModel
+                    ListElement { name: "qml entry1 (red)"; colour: "red" }
+                    ListElement { name: "qml entry2 (orange)"; colour: "orange" }
+                    ListElement { name: "qml entry3 (yellow)"; colour: "yellow" }
+                    ListElement { name: "qml entry4 (green)"; colour: "green" }
+                    ListElement { name: "qml entry5 (blue)"; colour: "blue" }
+                    ListElement { name: "qml entry6 (purple)"; colour: "purple" }
+                }
+
             ListView {
+                id: trackListings
+                objectName: "trackListings"
                 anchors.fill: parent
-                model: trackListing
-                delegate: track
+
+                delegate: Rectangle {
+                    id: trackItem
+                    height: 20
+                    width: parent.width
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            mainWindow.state = "showItemDetailView"
+                            console.log("Song clicked from playlist pane: " + name)
+                        }
+                    }
+                    Text {
+                        text: '•' + name
+                    }
+                }
+
+                function setTrackListings(songNames)
+                {
+                    console.log("setTrackListings has been called:" + songNames);
+                    console.log("Track Model Count: " + trackListings.model.count);
+
+                    for ( var i = trackListings.model.count-1 ; i >= 0 ; i-- )
+                    {
+                        console.log("Song " + (i+1) + " Pre Delete: " + trackListings.model.get(i).name);
+                    }
+
+                    console.log("Song names length: " + songNames.length);
+                    for (var i = 0 ; i < songNames.length ; i++)
+                    {
+                        var data = {name: songNames[i]};
+                        cppModel.append(data);
+                        console.log("Appending data " + i + ":" + songNames[i] + ": " + data.name);
+                    }
+
+                    /*for (var i = 0 ; i < trks.count ; i++)
+                    {
+                        console.log("Song " + (i+1) + ": " + trks.get(i).name);
+                    }*/
+                    //console.log("Tracks Model length: " + trackListings.model.count)
+                }
+
             }
+
         }
     }
 }
