@@ -44,8 +44,6 @@ void *initSpotifyFromMain(void* sp_arguments){
 int main(int argc, char *argv[])
 {
     FLAG_CLOSING = false;
-    pthread_t *spotifyThread;
-    int spotifyThread_id;
 
     qmlRegisterSingletonType(QUrl("qrc:/GlobalVars.qml"), "Alluvial.Globals", 1, 0, "Globals");
     qmlRegisterType<Settings_storing>("AlluvialSettings", 0, 1, "ClientSettings");
@@ -69,7 +67,7 @@ int main(int argc, char *argv[])
     spotifyCreds.password = password.toString();
     mediaPlayer *mp = new mediaPlayer();
     playlist_handler *ph = new playlist_handler();
-    CommunicationHandler *commhandler = new CommunicationHandler("127.0.0.1");
+    CommunicationHandler *commhandler = new CommunicationHandler("https://10.109.132.45:8900");
 
     QtLibSpotifyHandler *spotifyHandler = new QtLibSpotifyHandler("username", "password");
 
@@ -134,10 +132,12 @@ int main(int argc, char *argv[])
         ph, SLOT(changeTrackListings(int)));
 
     //This has problems.  Will be fixing soon!
-    /*
+
     QObject::connect(searchQueryText, SIGNAL(searchQuery(QString)),
                      commhandler, SLOT(searchRequest(QString)));
-    */
+
+
+
    playlist_item *newSong = new playlist_item("#0", "song 1", 5);
 
     ph->addPlaylist("Playlist 1");

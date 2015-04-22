@@ -219,20 +219,22 @@ void CommunicationHandler::connectToServer(QString host)
     // we now ensure the host is properly formatted, by creating the QUrl
     // and using it to validate the URL.
     QUrl hostUrl = QUrl::fromUserInput(host);
-    if (!hostUrl.isValid()) {
-        qWarning() << "Url invalid, what the hell Jeff validate your input!";
-        return;
-    }
+//    if (!hostUrl.isValid()) {
+//        qWarning() << "Url invalid, what the hell Jeff validate your input!";
+//        return;
+//    }
 
     // ensures that we pass a websocket url no matter what
     hostUrl.setScheme("ws");
+
+    qDebug() << hostUrl;
 
     socket->open(hostUrl);
 
     // we then init and send an auth response to the server.
     // TODO: hammer out a way to get the password from whereever it's stored
 //    QString passwd = getPassword();
-    QString passwd = "123abc";
+    QString passwd = "serverPass";
     sendAuthRequest(passwd);
 }
 
@@ -277,10 +279,10 @@ void CommunicationHandler::reconnectToServer()
     // we then promptly try to reconnect.
     // TODO: implement some kind of delay or stop just in case this cycle
     // keeps looping forever
-    qDebug() << "Disconnected from server :(";
-    QHostAddress addr = socket->peerAddress();
-    qDebug() << "We're going to try to reconnect now...";
-    connectToServer(addr.toString());
+//    qDebug() << "Disconnected from server :(";
+//    QHostAddress addr = socket->peerAddress();
+//    qDebug() << "We're going to try to reconnect now...";
+//    connectToServer(addr.toString());
 }
 
 /*!
@@ -301,5 +303,6 @@ void CommunicationHandler::handleBinaryMessage(QByteArray data)
  */
 void CommunicationHandler::searchRequest(QString queryString){
     qDebug() << "CommunicationHandler searchRequest for search value: " << queryString;
-    //sendSearchRequest(queryString);
+
+    sendSearchRequest(queryString);
 }

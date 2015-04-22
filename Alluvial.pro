@@ -39,7 +39,6 @@ HEADERS += \
 DISTFILES += \
     qmldir.txt \
     Doxyfile
-    qmldir.txt
 
 #unix:!macx: LIBS += -lspotify
 

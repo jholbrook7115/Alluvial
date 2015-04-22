@@ -12,14 +12,14 @@ Rectangle {
 
     signal searchQuery(string input);
 
+
     TextField{
         id: searchBarTextField
         objectName: "searchQueryText"
         anchors.fill:parent
+        signal searchQuery(string input);
         onEditingFinished: {
-            //TODO: send the text in the field to somewhere which will actually do something with it
             console.log("Search text input");
-
             var inputText = getText(0,128);
             searchQuery(inputText);
             mainWindow.state="showSearchResultsPane"
