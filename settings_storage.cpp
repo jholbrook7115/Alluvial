@@ -74,7 +74,7 @@ void Settings_storing::settingsSaved(){
     /* testing output of JsonFormatter
      *
      */
-
+/*
     //STATUS:  unsure -- output is
     // output bytearray from jsonformatter->getJSONSettings() to file
     QFile tmpfile("json_bytearray_output.txt");
@@ -96,8 +96,10 @@ void Settings_storing::settingsSaved(){
     tmpfileJson.open(QIODevice::ReadWrite);
     tmpfileJson.write(tmpJsonDoc.toJson());
     tmpfileJson.close();
-
+    */
     /*
      *Testing Output finished
      */
+
+
 }

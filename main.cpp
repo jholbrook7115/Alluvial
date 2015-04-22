@@ -20,6 +20,7 @@
 #include "pthread.h"
 
 #include <qtlibspotify.h>
+#include <qtlibspotifyhandler.h>
 
 #define NUM_OF_THREADS 4
 
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
     QVariant username = settings->value("spotifyUserName");
     QVariant password = settings->value("spotifyPassword");
     struct spotify_credentials spotifyCreds;
-    engine.rootContext()->setContextProperty("clientSettings", settings);
+    //engine.rootContext()->setContextProperty("clientSettings", settings);
 
     spotifyCreds.thread_id=1;
     spotifyCreds.username = username.toString();
@@ -69,6 +70,8 @@ int main(int argc, char *argv[])
     mediaPlayer *mp = new mediaPlayer();
     playlist_handler *ph = new playlist_handler();
     CommunicationHandler *commhandler = new CommunicationHandler("127.0.0.1");
+
+    QtLibSpotifyHandler *spotifyHandler = new QtLibSpotifyHandler("username", "password");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     engine.rootContext()->setContextProperty("clientSettings", settings);
@@ -86,14 +89,6 @@ int main(int argc, char *argv[])
     // Initializing the spotify stuff.  This particular is used for testing and SHOULD be changed later on.
     //spotifyThread_id = pthread_create(spotifyThread, NULL, initSpotifyFromMain, (void*)&spotifyCreds);
 
-    /*
-     * IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * ("../Alluvial/main.qml")
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * */
-   //Settings* settings = new Settings(application.data());
     QUrl url("file:///home/jefferson/Code/Alluvial/Alluvial");
     QObject *playlistDropDown = root->findChild<QObject*>("dropdownPlaylistOptions");
     QObject *trackListings = root->findChild<QObject*>("trackListings");
@@ -102,11 +97,6 @@ int main(int argc, char *argv[])
     // Pause or play the song
     QObject::connect(playButton, SIGNAL(playClicked()),
         mp, SLOT(playOrPause()));
-/*
-    view->rootContext()->setContextProperty("settings", settings);
-    view->setSource();
-    view->showNormal();
-    */
 
 // Adjust the volume according to the position of the volume slider
     QObject::connect(volSlider, SIGNAL(changeVol(int)),
@@ -143,9 +133,11 @@ int main(int argc, char *argv[])
     QObject::connect(playlistDropDown, SIGNAL(activePlaylistChanged(int)),
         ph, SLOT(changeTrackListings(int)));
 
+    //This has problems.  Will be fixing soon!
+    /*
     QObject::connect(searchQueryText, SIGNAL(searchQuery(QString)),
                      commhandler, SLOT(searchRequest(QString)));
-
+    */
    playlist_item *newSong = new playlist_item("#0", "song 1", 5);
 
     ph->addPlaylist("Playlist 1");
@@ -187,18 +179,14 @@ int main(int argc, char *argv[])
     {
         dataList.append(new DataObject(data.at(i)));
     }
+
+
     engine.rootContext()->setContextProperty("cppModel", QVariant::fromValue(dataList));
     engine.rootContext()->setContextProperty("playlistModel", QVariant::fromValue(playlists));
 
-
-
-    /*
-    QObject *topLevel = engine.rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-
-    window->show();
-    */
 	int appInt = app.exec();
+
+
 
     return appInt;
 }

@@ -28,8 +28,6 @@ public:
                                                            QCoreApplication::instance()->applicationName(),
                                                            parent){}
 
-
-
     //Q_INVOKABLE Macro which will expose this setValue function to qml elements
     //This is used to set the value for the specified key
     Q_INVOKABLE void setValue(const QString & key, const QVariant & value);

@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     playlist.cpp \
     playlist_handler.cpp \
     dataobject.cpp \
-    communicationhandler.cpp
+    communicationhandler.cpp \
+    qtlibspotifyhandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,7 +34,8 @@ HEADERS += \
     playlist.h \
     playlist_handler.h \
     dataobject.h \
-    communicationhandler.h
+    communicationhandler.h \
+    qtlibspotifyhandler.h
 DISTFILES += \
     qmldir.txt \
     Doxyfile
