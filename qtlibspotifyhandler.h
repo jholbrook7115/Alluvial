@@ -24,7 +24,7 @@ public slots:
         QString spotifyusername = settings->value("spotifyUserName").toString();
         QString spotifypassword = settings->value("spotifyPassword").toString();
         QString result;
-        QtLibSpotify *spotifyObj = new QtLibSpotify( "username", "password");
+        QtLibSpotify *spotifyObj = new QtLibSpotify( "holbrook002", "Quarantine2019)");
         qDebug() << "Made it inside the doWork function";
     }
 
@@ -57,6 +57,7 @@ signals:
 public slots:
     void searchResultsCB(QJsonArray jsonSearchResults);
     void dataStreamCB(QByteArray byteArray);
+    void searchSlot(QString query);
 };
 
 #endif // QTLIBSPOTIFYHANDLER_H
