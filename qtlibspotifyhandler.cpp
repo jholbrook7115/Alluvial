@@ -3,7 +3,7 @@
 #include <QThread>
 #include <QDebug>
 
-QtLibSpotify *libSpotify;
+QtLibSpotify *objlibSpotify;
 QThread *spotifyThread;
 
 
@@ -36,7 +36,7 @@ QtLibSpotifyHandler::QtLibSpotifyHandler(QString username, QString password)
 
 void QtLibSpotifyHandler::searchQtlibSpotify(QString searchString)
 {
-    libSpotify->search(searchString);
+    objlibSpotify->search(searchString);
 }
 
 void QtLibSpotifyHandler::dataStreamCB(QByteArray datastream)
@@ -49,3 +49,7 @@ void QtLibSpotifyHandler::searchResultsCB(QJsonArray serachResults)
 
 }
 
+void QtLibSpotifyHandler::searchSlot(QString query){
+    qDebug() << "QtLibSpotifyhandlerSearch: searchSlot has received a query!";
+    searchQtlibSpotify(query);
+}
