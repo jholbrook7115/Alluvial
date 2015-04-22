@@ -57,6 +57,7 @@ signals:
 public slots:
     void searchResultsCB(QJsonArray jsonSearchResults);
     void dataStreamCB(QByteArray byteArray);
+
 };
 
 #endif // QTLIBSPOTIFYHANDLER_H

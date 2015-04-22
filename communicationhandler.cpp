@@ -38,7 +38,6 @@ CommunicationHandler::~CommunicationHandler()
  */
 void CommunicationHandler::sendAuthRequest(QString pass)
 {
-
     QJsonObject obj
     {
         {"request_type", "authentication"}
@@ -54,8 +53,7 @@ void CommunicationHandler::sendAuthRequest(QString pass)
     qDebug() << "Authentication request is:";
     qDebug() << QString(QJsonDocument(obj).toJson());
 
-
-    socket->sendTextMessage(QString(QJsonDocument(obj).toJson()));
+    socket->sendTextMessage(QJsonDocument(obj).toJson());
 }
 
 /*!
@@ -91,9 +89,10 @@ void CommunicationHandler::sendSearchRequest(QString req)
     obj["request"] = inner;
 
     qDebug() << "Search request is:";
+
     qDebug() << QString(QJsonDocument(obj).toJson());
 
-    socket->sendTextMessage(QString(QJsonDocument(obj).toJson()));
+    socket->sendTextMessage(QJsonDocument(obj).toJson());
 }
 
 /*!
@@ -118,7 +117,7 @@ void CommunicationHandler::sendMediaRequest(QString hash)
     qDebug() << "Media request is:";
     qDebug() << QString(QJsonDocument(obj).toJson());
 
-    socket->sendTextMessage(QString(QJsonDocument(obj).toJson()));
+    socket->sendTextMessage(QJsonDocument(obj).toJson());
 }
 
 /*!
@@ -183,6 +182,7 @@ void CommunicationHandler::handleSearchResponse(QJsonObject obj)
         emit searchError(obj["error"].toString());
         return;
     }
+
     emit onSearchReceived(obj);
 }
 
