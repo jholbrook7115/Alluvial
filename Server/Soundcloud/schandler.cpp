@@ -100,9 +100,15 @@ QJsonValue SCHandler::format(QJsonValue initial){
 
 QJsonArray SCHandler::search(QString value, QString key){
     QJsonArray results = QJsonArray();
+    QJsonObject jobj;
+    QString result;
     int num_queried = query(key, value);
     for(int i=0; i<num_queried; i++){
-        results.append(format(raw_results[i]));
+        jobj = raw_results[i].toObject();
+        result = jobj["download_url"].toString();
+        qDebug() << result.compare(QString(""));
+        if(result.compare(QString("")) != 0)
+            results.append(format(raw_results[i]));
     }
 
     emit onSearchComplete(&results);
@@ -115,9 +121,10 @@ QJsonArray SCHandler::search(int count, QString value, QString key){
     if(count > num_queried)
         count = num_queried;
     for(int i=0; i<40; i++){
+
         results.append(format(raw_results[i]));
     }
-
+    emit onSearchComplete(&results);
     return results;
 }
 
