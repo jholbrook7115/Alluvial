@@ -43,7 +43,6 @@ public slots:
     void searchRequest(QString queryString);
 private:
     QWebSocket *socket;
-
     void handleSearchResponse(QJsonObject obj);
     void handleAuthResponse(QJsonObject obj);
     void handlePlaylistResponse(QJsonObject obj);

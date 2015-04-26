@@ -13,7 +13,6 @@
 /*!
  \class Settings_storing
 
- \preliminary
  \brief The Settings_storing class
 
  This class is a wrapper around the QSettings class, develooped by Qt

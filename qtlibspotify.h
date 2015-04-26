@@ -17,12 +17,13 @@ public:
     sp_search *searchSpotify(sp_session* session, QString searchQuery);
     void playSongSpotify(sp_session* session, sp_track* track);
     sp_connectionstate GetConnectionState();
-    void search(QString searchString);
+
     bool isLoggedIn();
 public slots:
     sp_error spotifyLogin(QString username, QString password);
     sp_error spotifyLogout(sp_session *user_session);
     sp_error releaseSpotifySession(sp_session *user_session);
+    sp_error search(QString searchString);
     sp_error closing();
 
 };

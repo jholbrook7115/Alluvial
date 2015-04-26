@@ -26,20 +26,6 @@
 
 bool FLAG_CLOSING;
 
-struct spotify_credentials{
-    int thread_id;
-    QString username;
-    QString password;
-};
-
-void *initSpotifyFromMain(void* sp_arguments){
-    QtLibSpotify *spotifyObj = new QtLibSpotify("username", "password");
-
-    while(!FLAG_CLOSING){
-
-    }
-    spotifyObj->closing();
-}
 
 int main(int argc, char *argv[])
 {
@@ -59,17 +45,14 @@ int main(int argc, char *argv[])
     Settings_storing *settings = new Settings_storing();
     QVariant username = settings->value("spotifyUserName");
     QVariant password = settings->value("spotifyPassword");
-    struct spotify_credentials spotifyCreds;
+
     //engine.rootContext()->setContextProperty("clientSettings", settings);
 
-    spotifyCreds.thread_id=1;
-    spotifyCreds.username = username.toString();
-    spotifyCreds.password = password.toString();
     mediaPlayer *mp = new mediaPlayer();
     playlist_handler *ph = new playlist_handler();
     CommunicationHandler *commhandler = new CommunicationHandler("https://10.109.132.45:8900");
 
-    QtLibSpotifyHandler *spotifyHandler = new QtLibSpotifyHandler("username", "password");
+    QtLibSpotifyHandler *spotifyHandler = new QtLibSpotifyHandler();
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     engine.rootContext()->setContextProperty("clientSettings", settings);
@@ -130,8 +113,6 @@ int main(int argc, char *argv[])
 
     QObject::connect(playlistDropDown, SIGNAL(activePlaylistChanged(int)),
         ph, SLOT(changeTrackListings(int)));
-
-    //This has problems.  Will be fixing soon!
 
     QObject::connect(searchQueryText, SIGNAL(searchQuery(QString)),
                      commhandler, SLOT(searchRequest(QString)));

@@ -26,7 +26,7 @@ Window {
     property string localFolderDirTF: clientSettings.value("filePath", "No Previous Directory Saved").toString();
     property string spotifyCredUserNameTF: clientSettings.value("spotifyUserName", "Username").toString();
     property string spotifyCredPasswordTF: clientSettings.value("spotifyPassword", "Password").toString();
-    property string  soundcloudCredUserNameTF: clientSettings.value("soundcloudUserName", "Username").toString();
+    property string soundcloudCredUserNameTF: clientSettings.value("soundcloudUserName", "Username").toString();
     property string soundcloudCredPasswordTF: clientSettings.value("soundcloudPassword", "Password").toString();
 
     FileDialog{

@@ -90,9 +90,12 @@ static sp_session_callbacks callbacks = {
     //return &charPtrForm;
 }
 
-static void search_complete(sp_search* search, void* userdata){
+static void SP_CALLCONV search_complete(sp_search* search, void* userdata){
     qDebug() << "Spotify: search_complete callback called";
     if(sp_search_error(search) == SP_ERROR_OK){
+
+
+
         //format and return the search results?????
         /*
          * options:
@@ -212,7 +215,7 @@ int QtLibSpotify::initSpotify(QString username, QString password){
     } else if(SP_ERROR_OK == error) {
         qDebug() << "session created";
     }
-
+    g_session = session;
     /*NEVER TOUCH THIS CODE OR A LARGE PERSON WILL COME TO YOUR
      * HOUSE AND BREAK YOUR COMPUTER IN THE SAME WAY YOU BROKE THIS CODE
      * */
@@ -221,12 +224,10 @@ int QtLibSpotify::initSpotify(QString username, QString password){
     std::string thing2 = password.toStdString();
 
     strUsername = thing1.c_str();
-    qDebug() << "strUsername: " << strUsername;
-    qDebug() << "strPassword: " << strPassword;
-
     strPassword = thing2.c_str();
-    qDebug() << "strUsername: " << strUsername;
-    qDebug() << "strPassword: " << strPassword;
+
+    qDebug() << strUsername;
+    qDebug() << strPassword;
 
     login_error = sp_session_login(session, strUsername, strPassword, 0, NULL);
     if(SP_ERROR_OK != login_error){
@@ -236,6 +237,7 @@ int QtLibSpotify::initSpotify(QString username, QString password){
         qDebug() << "Login Successful";
     }
     g_session = session;
+
     return 0;
 }
 
@@ -261,7 +263,6 @@ bool QtLibSpotify::isLoggedIn(){
     bool isloggedin = (NULL != g_session) && (GetConnectionState());
 }
 
-
 /*
  * Public Slots
  *
@@ -282,11 +283,9 @@ sp_error QtLibSpotify::spotifyLogout(sp_session *user_session){
     return sp_session_logout(user_session);
 }
 
-void QtLibSpotify::search(QString searchString){
+sp_error QtLibSpotify::search(QString searchString){
     res = searchSpotify(g_session, searchString);
     qDebug() << "Spotify search: Number of search results - " << sp_search_total_tracks(res);
-    //return res;
-
 }
 
 sp_error QtLibSpotify::releaseSpotifySession(sp_session *user_session){
