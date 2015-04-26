@@ -48,7 +48,7 @@ int SCHandler::query(QString key, QString value){
         QJsonParseError err;
         QJsonDocument jsondoc = QJsonDocument(QJsonDocument::fromJson(QString(reply->readAll()).toUtf8(), &err)); //raw string to qtstring to bytecode to jsondoc fucking shit
         raw_results = jsondoc.array(); //take the pile of responses and make them an array so you can fucking do something with the
-        qDebug() << raw_results;
+//        qDebug() << raw_results;
 
     return raw_results.size();
 
@@ -106,7 +106,7 @@ QJsonArray SCHandler::search(QString value, QString key){
     for(int i=0; i<num_queried; i++){
         jobj = raw_results[i].toObject();
         result = jobj["download_url"].toString();
-        qDebug() << result.compare(QString(""));
+//        qDebug() << result.compare(QString(""));
         if(result.compare(QString("")) != 0)
             results.append(format(raw_results[i]));
     }

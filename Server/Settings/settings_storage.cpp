@@ -1,5 +1,5 @@
 
-#include "jsonformatter.h"
+#include "../Settings/jsonformatter.h"
 #include "settings_storage.h"
 #include <QDebug>
 

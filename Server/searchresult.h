@@ -16,7 +16,7 @@ class SearchResult : public QObject
 public:
     explicit SearchResult(QString query, QObject *parent = 0);
     ~SearchResult();
-    bool SEARCH_COMPLETE;
+    bool SEARCH_COMPLETE = false;
 
     QString query;
 

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <QFile>
 #include <QCoreApplication>
-#include "jsonformatter.h"
+//#include "jsonformatter.h"
 
 
 /*!

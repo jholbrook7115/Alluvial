@@ -1,6 +1,6 @@
 #include "qtlibspotifyhandler.h"
 #include "qtlibspotify.h"
-#include "settings_storage.h"
+#include "../Settings/settings_storage.h"
 #include <QThread>
 #include <QDebug>
 

@@ -1,14 +1,20 @@
 #ifndef QUERYHANDLER_H
 #define QUERYHANDLER_H
+
+#include <QObject>
 #include "JSONhandler.h"
 
 
-class queryhandler
+class queryhandler : public QObject
 {
+    Q_OBJECT
 public:
-    queryhandler();
+    queryhandler(QObject *parent = 0);
     ~queryhandler();
     QJsonArray getResults(QString query);
+
+signals:
+    void onSearchComplete(QJsonArray *obj);
 };
 
 #endif // QUERYHANDLER_H

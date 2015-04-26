@@ -25,6 +25,7 @@ void SearchResult::onDbSearchComplete(QJsonArray *obj)
 {
     qDebug() << "DB search has completed for query" << query;
     if (SEARCH_COMPLETE) {
+        qDebug() << "search query already complete; db";
         return;
     }
     dbRes = obj;
@@ -45,6 +46,7 @@ void SearchResult::onSoundcloudSearchComplete(QJsonArray *obj)
 {
     qDebug() << "Soundcloud search has completed for query" << query;
     if (SEARCH_COMPLETE) {
+        qDebug() << "search query already complete; soundcloud";
         return;
     }
     scRes = obj;
@@ -84,7 +86,10 @@ void SearchResult::onSpotifySearchComplete(QJsonArray *obj)
 void SearchResult::insertObjectsIntoResults(QJsonArray *arr)
 {
     for (int i = 0; i < arr->size() ; i++) {
-        QString hash = crypto->encryptToString(arr->at(i).toObject()["hash"].toString());
+        QJsonValue val = arr->at(i);
+        QJsonObject obj1 = val.toObject();
+        QString strguy = obj1["hash"].toString();
+        QString hash = crypto->encryptToString(strguy);
         arr->at(i).toObject()["hash"] = hash;
         resultsList.append(arr->at(i));
     }

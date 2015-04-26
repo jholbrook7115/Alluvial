@@ -11,9 +11,10 @@
 
 #include "searchresult.h"
 #include "simplecrypt.h"
-#include "queryhandler.h"
-#include "schandler.h"
-#include "qtlibspotifyhandler.h"
+#include "Local/queryhandler.h"
+#include "Local/songhandler.h"
+#include "Soundcloud/schandler.h"
+#include "Spotify/qtlibspotifyhandler.h"
 
 ///TODO: Re-add spotify
 
@@ -41,6 +42,7 @@ private:
     QtLibSpotifyHandler *spotify;
     SCHandler *soundcloud;
     queryhandler *db;
+    songHandler *dbSongs;
     QQueue<SearchResult*> *searchQueue;
     QMap<QString, SearchResult*> *completedSearches;
     

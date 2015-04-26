@@ -11,9 +11,10 @@ MediaHandler::MediaHandler(QObject *parent) : QObject(parent)
     searchQueue = new QQueue<SearchResult*>();
     completedSearches = new QMap<QString, SearchResult*>();
     /// Demo code, make it prettier and/or functional later.
-    spotify = new QtLibSpotifyHandler("mybutt", "yourbutt");
+    spotify = new QtLibSpotifyHandler();
     soundcloud = new SCHandler();
     db = new queryhandler();
+    dbSongs = new songHandler();
     crypto = new SimpleCrypt(Q_UINT64_C(0x451823708829d4ce));
 
     /// hook up our signals and our slots
@@ -50,7 +51,7 @@ QByteArray MediaHandler::getMediaFromHash(QString hash)
     if (type == "soundcloud") {
         return soundcloud->request_song(split.at(1));
     } else if (type == "db") {
-        return db->getSong(split.at(1));
+        return dbSongs->getSong(split.at(1).toInt());
     } else {
         /// error handling passed up through here
         return QByteArray();
@@ -88,9 +89,9 @@ void MediaHandler::search(QString query)
     searchQueue->enqueue(search);
 
     /// execute the searches
-    db->search(query);
+    db->getResults(query);
 //    spotify->search(query);
-    soundcloud->query(query);
+    soundcloud->search(query);
 
     /// do something to make sure the thing goes
     processQueue();

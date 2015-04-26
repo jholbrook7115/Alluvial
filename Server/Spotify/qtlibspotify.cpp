@@ -25,7 +25,7 @@
 #include <sys/time.h>
 #include <string.h>
 
-#include "../appkey.h"
+#include "../../appkey.h"
 
 sp_session *g_session;
 

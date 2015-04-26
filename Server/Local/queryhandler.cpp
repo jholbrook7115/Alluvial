@@ -1,6 +1,6 @@
 #include "queryhandler.h"
 
-queryhandler::queryhandler()
+queryhandler::queryhandler(QObject *parent)
 {
 
 }
@@ -19,6 +19,7 @@ QJsonArray queryhandler::getResults(QString query)
     QJsonArray result;
     JSONHandler *mediaObject = new JSONHandler;
 
-    return result = mediaObject->generateResults(query);
+    result = mediaObject->generateResults(query);
+    emit onSearchComplete(&result);
 }
 

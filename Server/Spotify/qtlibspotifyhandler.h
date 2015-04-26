@@ -6,7 +6,7 @@
 #include <QJsonArray>
 #include <QThread>
 #include <QDebug>
-#include "settings_storage.h"
+#include "../Settings/settings_storage.h"
 #include <libspotify/api.h>
 #include "qtlibspotify.h"
 

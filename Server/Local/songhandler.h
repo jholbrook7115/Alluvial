@@ -1,7 +1,7 @@
 #ifndef SONGHANDLER_H
 #define SONGHANDLER_H
 #include <QByteArray>
-#include <databasehandler.h>
+#include "databasehandler.h"
 
 class songHandler
 {

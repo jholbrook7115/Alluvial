@@ -31,9 +31,6 @@ class SCHandler : public QObject
 {
     Q_OBJECT
 
-signals:
-    void onSearchComplete(QJsonArray *arr);
-
 private:
     QJsonArray raw_results;
 
@@ -118,7 +115,7 @@ public:
     QByteArray request_song(QString download_url, QString target=QString("../"));
 
 signals:
-    void onSearchComplete(QJsonArray jarray);
+    void onSearchComplete(QJsonArray *jarray);
 
 };
 #endif // SCHANDLER_H
