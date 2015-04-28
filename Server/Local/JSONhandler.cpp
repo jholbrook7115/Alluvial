@@ -1,5 +1,7 @@
 #include "JSONhandler.h"
 
+#include <QJsonDocument>
+
 
 JSONHandler::JSONHandler()
 {
@@ -15,10 +17,10 @@ JSONHandler::~JSONHandler()
  * \param query QString representing a search query
  * \return QJsonArray of results for a search query. Results are QJsonObjects called media objects.
  */
-QJsonArray JSONHandler::generateResults(QString query)
+QJsonArray* JSONHandler::generateResults(QString query)
 {
     QJsonObject test;
-    QJsonArray result;
+    QJsonArray *result = new QJsonArray();
     std::vector <MD> MDresult;
     DatabaseHandler *dub = new DatabaseHandler();
     bool DBOpen = dub->openDB();
@@ -47,9 +49,8 @@ QJsonArray JSONHandler::generateResults(QString query)
             {"genre", MDresult.at(i).genre}
         };
         media["metadata"] = meta;
-        result.append(media);
+        result->append(media);
     }
-    //qDebug() << result;
     return result;
 }
 

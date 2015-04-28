@@ -20,7 +20,7 @@ public:
 
     QString query;
 
-    QJsonObject getSearchResults();
+    QJsonObject* getSearchResults();
 signals:
     void searchProcessingComplete();
 

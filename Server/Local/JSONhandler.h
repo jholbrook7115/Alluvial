@@ -14,7 +14,7 @@ class JSONHandler : public QObject
 public:
     JSONHandler();
     ~JSONHandler();
-    QJsonArray generateResults(QString query);
+    QJsonArray *generateResults(QString query);
 };
 
 #endif // JSONHandler_H

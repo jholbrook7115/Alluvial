@@ -1,5 +1,5 @@
 #include "searchresult.h"
-
+#include <QJsonDocument> /// for testing
 ///TODO: Re-add spotify
 
 /*!
@@ -12,6 +12,7 @@ SearchResult::SearchResult(QString query, QObject *parent) : QObject(parent)
     scRes = new QJsonArray();
     spotifyRes = new QJsonArray();
     resultsList = QJsonArray();
+    crypto = new SimpleCrypt(Q_UINT64_C(0xb8828ee3d4532131));
 
     this->query = query;
     qDebug() << "SearchResult object created for" << query;
@@ -85,13 +86,26 @@ void SearchResult::onSpotifySearchComplete(QJsonArray *obj)
  */
 void SearchResult::insertObjectsIntoResults(QJsonArray *arr)
 {
+    QString input;
+
     for (int i = 0; i < arr->size() ; i++) {
         QJsonValue val = arr->at(i);
         QJsonObject obj1 = val.toObject();
-        QString strguy = obj1["hash"].toString();
-        QString hash = crypto->encryptToString(strguy);
-        arr->at(i).toObject()["hash"] = hash;
-        resultsList.append(arr->at(i));
+
+        if (obj1["hash"].isString()) {
+            input = obj1["hash"].toString();
+        } else if (obj1["hash"].isDouble()) {
+            input = QString::number(obj1["hash"].toDouble());
+        } else {
+            qWarning() << "Object has invalid hash";
+            continue;
+        }
+
+        QString hash = crypto->encryptToString(input);
+        qDebug() << "hashed value is" << hash;
+        obj1["hash"] = hash;
+        qDebug() << "Inserting object" << QString(QJsonDocument(obj1).toJson());
+        resultsList.append(obj1);
     }
 }
 
@@ -99,9 +113,9 @@ void SearchResult::insertObjectsIntoResults(QJsonArray *arr)
  * \brief SearchResult::getSearchResults
  * \return
  */
-QJsonObject SearchResult::getSearchResults()
+QJsonObject *SearchResult::getSearchResults()
 {
-    return fullResult; /// I wonder how memory management works here, probably have
+    return &fullResult; /// I wonder how memory management works here, probably have
                        /// to store the pointer. Potential static memory leak here,
                        /// check with Valgrind.
 }
@@ -134,6 +148,10 @@ void SearchResult::constructFullResult()
 
     results["results"] = resultsList;
 
+
+    qDebug() << "full results are" << QJsonDocument(results).toJson();
+
+    fullResult["results"] = results;
 
 
     /// at this point, we're done. So we set the SEARCH_COMPLETE flag to true

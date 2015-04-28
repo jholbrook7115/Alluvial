@@ -70,8 +70,8 @@ void MediaHandler::search(QString query)
     /// instead of re-executing the search.
     if (completedSearches->contains(query)) {
         qDebug() << "We found a search result already cached";
-        QJsonObject res = completedSearches->value(query)->getSearchResults();
-        emit searchResultComplete(res); // will this work?
+        QJsonObject *res = completedSearches->value(query)->getSearchResults();
+        emit searchResultComplete(*res); // will this work?
         return;
     }
     /// we first create the object and enqueue it for processing.
@@ -104,7 +104,7 @@ void MediaHandler::search(QString query)
  * retrieves the current head of the queue, checks to see if that result is
  * complete, and retrieves the search results if it's available.
  *
- * Due to the constraint placed upon us that searches are returend in the order
+ * Due to the constraint placed upon us that searches are returned in the order
  * they are received, there is no need to implement any sort of parallel
  * processing. This makes life a lot easier at the expense of some speed on the
  * backend. Because of this, we use this function to trigger advances in the
@@ -123,9 +123,9 @@ void MediaHandler::processQueue()
     head = searchQueue->head();
     if (head->SEARCH_COMPLETE) {
         head = searchQueue->dequeue();
-        QJsonObject res = head->getSearchResults();
+        QJsonObject *res = head->getSearchResults();
         completedSearches->insert(head->query, head);
-        emit searchResultComplete(res);
+        emit searchResultComplete(*res);
     } else {
         return;
     }

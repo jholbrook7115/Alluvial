@@ -1,4 +1,5 @@
 #include "queryhandler.h"
+#include <QJsonDocument>
 
 queryhandler::queryhandler(QObject *parent)
 {
@@ -16,10 +17,12 @@ queryhandler::~queryhandler()
  */
 QJsonArray queryhandler::getResults(QString query)
 {
-    QJsonArray result;
+    QJsonArray *result;
     JSONHandler *mediaObject = new JSONHandler;
 
     result = mediaObject->generateResults(query);
-    emit onSearchComplete(&result);
+    QByteArray guy = QJsonDocument(*result).toJson();
+    qDebug() << "queryhandler has object" << QString(guy);
+    emit onSearchComplete(result);
 }
 
