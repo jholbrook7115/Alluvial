@@ -25,9 +25,7 @@ class QtLibSpotifyWorker : public QObject
     Q_OBJECT
 
 public:
-    QtLibSpotifyWorker(){
-        //connect(this, searchSpotify, libspotifyObj, libspotifyObj->search);
-    };
+    QtLibSpotifyWorker(){};
     ~QtLibSpotifyWorker(){};
 
     QtLibSpotify* libspotifyObj;
@@ -40,13 +38,14 @@ public slots:
      * libSpotify.
      */
     void doWork(){
-
+        qDebug() << "Made it inside the doWork function";
         Settings_storing *settings = new Settings_storing();
         QString spotifyusername = settings->value("spotifyUserName").toString();
         QString spotifypassword = settings->value("spotifyPassword").toString();
         QString result;
         QtLibSpotifyWorker::libspotifyObj = new QtLibSpotify( spotifyusername, spotifypassword);
-        qDebug() << "Made it inside the doWork function";
+        connect(this, &QtLibSpotifyWorker::searchSpotify, libspotifyObj, &QtLibSpotify::search);
+
     }
     /*!
      * \brief incomingSearch
@@ -94,6 +93,10 @@ signals:
     void returnSearchResults(QJsonArray &searchResults);
 };
 
+// /////////////////////////////////////////////
+// This is the class to reference for all things related to Spotify
+// /////////////////////////////////////////////
+
 class QtLibSpotifyHandler : public QObject
 {
     Q_OBJECT
@@ -107,6 +110,9 @@ public:
     ~QtLibSpotifyHandler();
 
 signals:
+    // ///////////////////////////////////////////////
+    // To mediaHandler from libspotify signals
+    // ///////////////////////////////////////////////
     /*!
      * \brief playbackSignal
      * This is the signal which will be emitted when playback from Spotify is
@@ -115,16 +121,18 @@ signals:
      * media returned from Spotify
      */
     void playbackSignal(QByteArray musicalNotesThatPlayInASequence);
+
     /*!
      * \brief onSearchComplete
      * This is the signal which will be emitted when search results from Spotify is
      * returned from libSpotify.
      * \param searchResults A QJsonArray of a the search results from Spotify
      */
-    void onSearchComplete(QJsonArray searchResults);
+    void onSearchComplete(QJsonArray *searchResults);
 
-    //To QtLibSpotifyWorker signals
-
+    // ///////////////////////////////////////////////
+    // To QtLibSpotifyWorker signals from "this" signals
+    // ///////////////////////////////////////////////
     /*!
      * \brief searchForSpotify
      * This is the signal to the spotify worker that will send the search

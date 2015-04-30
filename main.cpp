@@ -13,5 +13,8 @@ int main(int argc, char *argv[])
 
     Server *server = new Server();
 
-    return app.exec();
+    int appInt = app.exec();
+    //Code to exit on close of program
+
+    return appInt;
 }

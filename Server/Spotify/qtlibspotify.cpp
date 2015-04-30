@@ -39,7 +39,7 @@ bool FLAG_SPOTIFY_STATUS;
 sp_search *res;
 
 static void  connection_error(sp_session *session, sp_error error){
-    qDebug() << "Spotify:  Connection Error - " << sp_error_message(error);
+    qDebug() << "Spotify:  Connection Error - " << sp_error_message(error) << " - for user - " << sp_session_user(session);
 }
 
 static void logged_in(sp_session *session, sp_error error){
@@ -49,18 +49,18 @@ static void logged_in(sp_session *session, sp_error error){
         qDebug() << "Spotify:  Log in failed: " << sp_error_message(error);
     }
     else{
-        qDebug() << "Spotify: Log in successful";
+        qDebug() << "Spotify: Log in successful for user - " << sp_session_user(session);
         FLAG_SPOTIFY_STATUS=true;
     }
 
 }
 
 static void logged_out(sp_session *session){
-    qDebug() << "Spotify: Logged Out";
+    qDebug() << "Spotify: Logged Out for user - " << sp_session_user(session);
 }
 
 static void log_message(sp_session *session, const char *data){
-    qDebug() << "Spotify: log_message - "<< data;
+    qDebug() << "Spotify: log_message for user " << sp_session_user(session) << " - "  << data;
 }
 
 static void notify_main_thread(sp_session *session){
@@ -93,16 +93,12 @@ static sp_session_callbacks callbacks = {
 static void SP_CALLCONV search_complete(sp_search* search, void* userdata){
     qDebug() << "Spotify: search_complete callback called";
     if(sp_search_error(search) == SP_ERROR_OK){
-
-
-
-        //format and return the search results?????
-        /*
-         * options:
-         *  1) return three result type for albums, artist, and tracks
-         *
-         *  2) return tracks with info about album/artist/etc
-         * */
+        while(!sp_search_is_loaded){}
+        int searchResultCount = sp_search_total_tracks(search);
+        qDebug() << "Spotify Search:  Total Search Results:  " << sp_search_total_tracks(search);
+        for(int i = 0; i < searchResultCount; i++){
+            qDebug() << "Spotify Search:  Search Results:  " << sp_search_track(search, i);
+        }
     }
     else{
         qDebug() << "Spotify: search result error - " << sp_search_error(search);

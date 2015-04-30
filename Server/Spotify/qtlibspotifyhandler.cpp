@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QDebug>
 
-//QtLibSpotify *objlibSpotify;
+//To search: emit the signal
 QThread *spotifyThread;
 
 

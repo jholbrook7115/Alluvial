@@ -80,17 +80,18 @@ void MediaHandler::search(QString query)
     /// we now hook up all the needed signals to this object to ensure success
     connect(search, &SearchResult::searchProcessingComplete,
             this, &MediaHandler::processQueue);
-//    connect(spotify, SIGNAL(onSearchComplete(QJsonArray)),
-//            search, SLOT(onSpotifySearchComplete(QJsonArray)));
     connect(db, &queryhandler::onSearchComplete,
             search, &SearchResult::onDbSearchComplete);
     connect(soundcloud, &SCHandler::onSearchComplete,
             search, &SearchResult::onSoundcloudSearchComplete);
+    connect(spotify, &QtLibSpotifyHandler::onSearchComplete,
+            search, &SearchResult::onSpotifySearchComplete);
     searchQueue->enqueue(search);
 
     /// execute the searches
     db->getResults(query);
 //    spotify->search(query);
+    spotify->searchSlot(query);
     soundcloud->search(query);
 
     /// do something to make sure the thing goes
