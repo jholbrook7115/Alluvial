@@ -20,6 +20,7 @@ QByteArray songHandler::getSong(int PKID)
     bool DBOpen = dub->openDB();
     QString FP = dub->getSongFP(PKID);
     QFile file(FP);
+    file.open(QIODevice::ReadOnly);
     QByteArray song = file.readAll();
     return song;
 }
