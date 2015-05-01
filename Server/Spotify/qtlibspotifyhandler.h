@@ -43,7 +43,10 @@ public slots:
         QString spotifyusername = settings->value("spotifyUserName").toString();
         QString spotifypassword = settings->value("spotifyPassword").toString();
         QString result;
-        QtLibSpotifyWorker::libspotifyObj = new QtLibSpotify( spotifyusername, spotifypassword);
+        //connect(this, &QtLibSpotifyWorker::searchSpotify, libspotifyObj, &QtLibSpotify::search);
+
+        libspotifyObj = new QtLibSpotify( spotifyusername, spotifypassword);
+        qDebug() << "after QtLibSpotify Object instantiation";
         connect(this, &QtLibSpotifyWorker::searchSpotify, libspotifyObj, &QtLibSpotify::search);
 
     }
@@ -66,10 +69,8 @@ signals:
      * \brief searchSpotify
      * A signal to QtLibSpotify to tell it to search
      * \param searchText The QString input from the SearchBar in the Main UI
-     * \return an error code from the libspotify searching function; 0 == OK,
-     * more found in libSpotify's documentation
      */
-    sp_error searchSpotify(QString searchText);
+    void searchSpotify(QString searchText);
 
     /*!
      * \brief finished  The signal to emit when the spotify object is finished

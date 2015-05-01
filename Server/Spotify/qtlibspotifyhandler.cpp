@@ -68,4 +68,5 @@ void QtLibSpotifyHandler::searchSlot(QString query){
     qDebug() << "QtLibSpotifyhandlerSearch: searchSlot has received a query!";
     //searchQtlibSpotify(query);
     emit searchForSpotify(query);
+
 }

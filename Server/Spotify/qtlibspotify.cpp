@@ -150,10 +150,10 @@ QtLibSpotify::QtLibSpotify(QString username, QString password)
             TIMEVAL_TO_TIMESPEC(&tv,&ts);
 #endif
             ts.tv_sec += next_timeout/1000;
-            ts.tv_nsec += (next_timeout%1000) * 1000000;
+            ts.tv_nsec += (next_timeout%1000) * 1000;
 
             while(!notify_events){
-                if(pthread_cond_timedwait(&notify_cond,&notify_mutex,&ts)){
+                if(!pthread_cond_timedwait(&notify_cond, &notify_mutex, &ts)){
                     break;
                 }
             }
@@ -281,7 +281,7 @@ sp_error QtLibSpotify::spotifyLogout(sp_session *user_session){
 
 sp_error QtLibSpotify::search(QString searchString){
     res = searchSpotify(g_session, searchString);
-    qDebug() << "Spotify search: Number of search results - " << sp_search_total_tracks(res);
+    //qDebug() << "Spotify search: Number of search results - " << sp_search_total_tracks(res);
 }
 
 sp_error QtLibSpotify::releaseSpotifySession(sp_session *user_session){
