@@ -49,3 +49,6 @@ HEADERS += \
 unix:!macx: LIBS += -ltag
 
 unix:!macx: LIBS += -lspotify
+
+DISTFILES += \
+    Doxyfile
