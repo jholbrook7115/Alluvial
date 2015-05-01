@@ -10,6 +10,12 @@
 
 #include "simplecrypt.h"
 
+enum class SearchResultType {
+    DB = 0,
+    SoundCloud = 1,
+    Spotify = 2
+};
+
 class SearchResult : public QObject
 {
     Q_OBJECT
@@ -39,7 +45,7 @@ private:
     QJsonArray resultsList;
 
     void constructFullResult();
-    void insertObjectsIntoResults(QJsonArray *arr);
+    void insertObjectsIntoResults(QJsonArray *arr, SearchResultType type);
 
 public slots:
     void onSpotifySearchComplete(QJsonArray *obj);
