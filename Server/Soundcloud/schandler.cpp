@@ -79,7 +79,7 @@ QJsonValue SCHandler::format(QJsonValue initial){
     }
 
     QJsonObject media{
-        {"hash",""},
+        {"hash", jobj["download_url"].toString()},
         {"order",""},
     };
 
@@ -89,8 +89,7 @@ QJsonValue SCHandler::format(QJsonValue initial){
         {"artist", jobj["user"].toObject()["username"].toString()},
         {"track_number", 0},
         {"length", length}, //get from fucking duration
-        {"genre", jobj["genre"].toString()},
-        {"download", jobj["download_url"].toString()}
+        {"genre", jobj["genre"].toString()}
     };
     //add meta to media
     media["metadata"] = meta;
@@ -128,7 +127,7 @@ QJsonArray SCHandler::search(int count, QString value, QString key){
     return results;
 }
 
-QByteArray SCHandler::request_song(QString download_url, QString target){
+QByteArray SCHandler::request_song(QString download_url){
     QByteArray barry;
     // create custom temporary event loop on stack
     QNetworkRequest request;
@@ -171,15 +170,7 @@ QByteArray SCHandler::request_song(QString download_url, QString target){
             QNetworkReply *reply = mgr.get(req);
             eventLoop.exec();
 
-            QUrl aUrl(url);
-            QFileInfo fileInfo=aUrl.path();
-            qDebug() << fileInfo.fileName();
-            QFile file(target+"/"+fileInfo.fileName());
-            file.open(QIODevice::ReadWrite);
-            file.write(reply->readAll());
-            delete reply;
-            barry = file.readAll();
-            return barry;
+            return reply->readAll();
         }
         else{
             qDebug() << "Failure on download request" <<reply->errorString();

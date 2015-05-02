@@ -16,7 +16,7 @@ MediaHandler::MediaHandler(QObject *parent) : QObject(parent)
     soundcloud = new SCHandler();
     db = new queryhandler();
     dbSongs = new songHandler();
-    crypto = new SimpleCrypt(Q_UINT64_C(0x451823708829d4ce));
+    crypto = new SimpleCrypt(Q_UINT64_C(0xb8828ee3d4532131));
 
     /// hook up our signals and our slots
     qDebug() << "SHIT WE RUNNIN NOW FAM";

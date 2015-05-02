@@ -81,12 +81,26 @@ void SearchResult::onSpotifySearchComplete(QJsonArray *obj)
 }
 
 /*!
- * \brief SearchResult::insertObjectsIntoResults
- * \param arr
+ * \brief Appends the input array of json objects into the class's results list.
+ *
+ * This function takes in an input array of media objects, creates their unique
+ * media hashes, and stores the new json object with the hash into the fullResults
+ * object for later serialization.
+ * \param arr the array of input objects
  */
-void SearchResult::insertObjectsIntoResults(QJsonArray *arr)
+void SearchResult::insertObjectsIntoResults(QJsonArray *arr, SearchResultType type)
 {
     QString input;
+    QString resType;
+
+    switch(type) {
+    case SearchResultType::DB: resType = "db: ";
+        break;
+    case SearchResultType::SoundCloud: resType = "soundcloud: ";
+        break;
+    case SearchResultType::Spotify: resType = "spotify: ";
+        break;
+    }
 
     for (int i = 0; i < arr->size() ; i++) {
         QJsonValue val = arr->at(i);
@@ -101,7 +115,7 @@ void SearchResult::insertObjectsIntoResults(QJsonArray *arr)
             continue;
         }
 
-        QString hash = crypto->encryptToString(input);
+        QString hash = crypto->encryptToString(resType + input);
         qDebug() << "hashed value is" << hash;
         obj1["hash"] = hash;
         qDebug() << "Inserting object" << QString(QJsonDocument(obj1).toJson());
@@ -129,8 +143,8 @@ void SearchResult::constructFullResult()
     QString hash;
 
     /// we begin by concatenating the media objects into one big array.
-    insertObjectsIntoResults(dbRes);
-    insertObjectsIntoResults(scRes);
+    insertObjectsIntoResults(dbRes, SearchResultType::DB);
+    insertObjectsIntoResults(scRes, SearchResultType::SoundCloud);
 //    insertObjectsIntoResults(spotifyRes);
 
     /// at this point, we get to build the full object.

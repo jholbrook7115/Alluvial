@@ -58,9 +58,6 @@ public:
 
     /*!
      \brief Constructor used to access member functions
-
-     \param NONE
-     \return NONE
     */
     SCHandler(QObject *parent=0);
     ~SCHandler();
@@ -112,7 +109,7 @@ public:
                     to which to save the file
      \return an integer value denoting the size of the file or -1 for an unsuccessful request
     */
-    QByteArray request_song(QString download_url, QString target=QString("../"));
+    QByteArray request_song(QString download_url);
 
 signals:
     void onSearchComplete(QJsonArray *jarray);
