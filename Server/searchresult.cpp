@@ -71,7 +71,7 @@ void SearchResult::onSpotifySearchComplete(QJsonArray *obj)
         return;
     }
     spotifyRes = obj;
-    SOUNDCLOUD_COMPLETE = true;
+    SPOTIFY_COMPLETE = true;
     //    if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
     //        constructFullResult();
     //    }

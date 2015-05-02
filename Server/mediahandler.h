@@ -14,7 +14,7 @@
 #include "Local/queryhandler.h"
 #include "Local/songhandler.h"
 #include "Soundcloud/schandler.h"
-#include "Spotify/qtlibspotifyhandler.h"
+#include "Spotify/qtspotifysession.h"
 
 ///TODO: Re-add spotify
 
@@ -39,7 +39,8 @@ signals:
 
 public slots:
 private:
-    QtLibSpotifyHandler *spotify;
+
+    QtSpotifySession *spotify;
     SCHandler *soundcloud;
     queryhandler *db;
     songHandler *dbSongs;
