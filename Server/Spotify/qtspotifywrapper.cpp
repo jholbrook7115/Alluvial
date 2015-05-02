@@ -50,9 +50,10 @@ static QJsonValue spotifyTrackParser(sp_track * track, int index)
         artistString.append(", ");
     }
 
-    int durationInSecs = (sp_track_duration(track))*1000;
+    int durationInSecs = (sp_track_duration(track))/1000;
     QString trackSeconds = QString::number(durationInSecs%60);
-    QString trackMinutes = QString::number(floor(durationInSecs/60));
+    QString trackMinutes = QString::number(durationInSecs/60);
+    //QString::number((int)(durationInSecs/60));
     if(durationInSecs%60 < 10){
         trackSeconds = "0" + trackSeconds;
     }

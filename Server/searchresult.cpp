@@ -31,12 +31,12 @@ void SearchResult::onDbSearchComplete(QJsonArray *obj)
     }
     dbRes = obj;
     DB_COMPLETE = true;
-//    if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
-//        constructFullResult();
-//    }
-    if (SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
+    if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
         constructFullResult();
     }
+//    if (SOUNDCLOUD_COMPLETE && SPOTIFY_COMPLETE) {
+//        constructFullResult();
+//    }
 }
 
 /*!
@@ -52,12 +52,12 @@ void SearchResult::onSoundcloudSearchComplete(QJsonArray *obj)
     }
     scRes = obj;
     SOUNDCLOUD_COMPLETE = true;
-    //    if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
-    //        constructFullResult();
-    //    }
-    if (SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
-        constructFullResult();
-    }
+        if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
+            constructFullResult();
+        }
+//    if (SPOTIFY_COMPLETE && DB_COMPLETE) {
+//        constructFullResult();
+//    }
 }
 
 /*!
@@ -72,12 +72,12 @@ void SearchResult::onSpotifySearchComplete(QJsonArray *obj)
     }
     spotifyRes = obj;
     SPOTIFY_COMPLETE = true;
-    //    if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
-    //        constructFullResult();
-    //    }
-    if (SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
-        constructFullResult();
-    }
+        if (SPOTIFY_COMPLETE && SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
+            constructFullResult();
+        }
+//    if (SOUNDCLOUD_COMPLETE && DB_COMPLETE) {
+//        constructFullResult();
+//    }
 }
 
 /*!
@@ -145,7 +145,7 @@ void SearchResult::constructFullResult()
     /// we begin by concatenating the media objects into one big array.
     insertObjectsIntoResults(dbRes, SearchResultType::DB);
     insertObjectsIntoResults(scRes, SearchResultType::SoundCloud);
-//    insertObjectsIntoResults(spotifyRes);
+    insertObjectsIntoResults(spotifyRes, SearchResultType::Spotify);
 
     /// at this point, we get to build the full object.
     fullResult = QJsonObject
