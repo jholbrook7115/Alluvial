@@ -25,13 +25,6 @@ public:
     bool getMedia(bool play, QString linkToSpotify);
     bool seek(int pos);
 
-public slots:
-    //void search(QString searchQuery);
-    //not sure what to pass to spotify for song ref
-    //just yet...
-    //void playMusic();
-
-
 private:
     QtSpotifyWrapper *wrapper;
 
@@ -64,8 +57,6 @@ signals:
      * the next song load or for knowing that the playback unexpectedly stopped.
      */
     void playbackEnded();
-
-
 };
 
 #endif // QTSPOTIFYSESSION_H

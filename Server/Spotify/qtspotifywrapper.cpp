@@ -252,11 +252,10 @@ bool QtSpotifyWrapper::initSpotify(QString username, QString password)
     qDebug() << sizeof(g_appkey);
     config.user_agent = USER_AGENT;
     config.callbacks = &callbacks;
-    //FUCK PROXIES
     config.proxy = 0x0;
     config.proxy_password=0x0;
     config.proxy_username=0x0;
-   // config.device_id= getDevice_ID();
+
     error = sp_session_create(&config, &session);
     if(SP_ERROR_OK != error) {
         qDebug() << "failed to create session: " << sp_error_message(error);
@@ -289,16 +288,7 @@ bool QtSpotifyWrapper::initSpotify(QString username, QString password)
 
     start();
 }
-//DELETE ME
-void QtSpotifyWrapper::login()
-{
 
-}
-//DELETE ME
-void QtSpotifyWrapper::logout()
-{
-
-}
 
 /*!
  * \brief QtSpotifyWrapper::searchSpotify  The function that is called from the
@@ -371,7 +361,7 @@ bool QtSpotifyWrapper::play(bool play, QString linkToSong)
  */
 bool QtSpotifyWrapper::seek(int pos)
 {
-
+    //TODO: implement once playback works properly
 }
 /*!
  * \brief QtSpotifyWrapper::search_complete_wrapper_cb  The function called when the
